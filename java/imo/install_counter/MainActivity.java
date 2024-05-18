@@ -15,33 +15,42 @@ import java.io.IOException;
 public class MainActivity extends Activity 
 {
     final File compiled_to_apk_count = new File("/storage/emulated/0/AppProjects/frog/compiled_to_apk_count.txt");
-
+    
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-
+        setModeSetup();
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            final Uri apkUri = intent.getData();
-            String savedCountInFile = FileTools.readTextFile(compiled_to_apk_count);
-            final int i = Integer.parseInt(savedCountInFile);
-            final Button btn = findViewById(R.id.btn);
-            btn.setText(i + "");
-            btn.setOnClickListener(new View.OnClickListener() {
-                    public void onClick (View v) {
-                        if (apkUri == null) {
-                            finishAffinity();
-                            return;
-                        }
-                        btn.setEnabled(false);
-                        int j = i + 1;
-                        FileTools.writeTextFile(compiled_to_apk_count, j + "");
-                        btn.setText(j + "");
-                        installApk(apkUri);
-                    }
-                });
+            setModeRecieveApk(intent);
         }
+    }
+    
+    public void setModeSetup(){
+        setContentView(R.layout.setup);
+        
+    }
+    public void setModeRecieveApk(Intent intent){
+        setContentView(R.layout.main);
+        final Uri apkUri = intent.getData();
+        String savedCountInFile = FileTools.readTextFile(compiled_to_apk_count);
+        final int i = Integer.parseInt(savedCountInFile);
+        
+        final Button btn = findViewById(R.id.btn);
+        btn.setText(i + "");
+        btn.setOnClickListener(new View.OnClickListener() {
+                public void onClick (View v) {
+                    if (apkUri == null) {
+                        finishAffinity();
+                        return;
+                    }
+                    btn.setEnabled(false);
+                    int j = i + 1;
+                    FileTools.writeTextFile(compiled_to_apk_count, j + "");
+                    btn.setText(j + "");
+                    installApk(apkUri);
+                }
+            });
     }
 
     private void installApk (Uri apkUri) {
@@ -51,37 +60,5 @@ public class MainActivity extends Activity
         startActivity(intent);
     }
 
-    static class FileTools
-    {
-        static String readTextFile (File file) {
-            String filePath = file.getAbsolutePath();
-            return readTextFile(filePath);
-        }
-
-        static String readTextFile (String filePath) {
-            StringBuilder content = new StringBuilder();
-
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(filePath));
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    content.append(line).append("\n");
-                }
-                reader.close();
-            } catch (IOException e) {}
-            return content.toString().trim();
-        }
-
-        static void writeTextFile (File file, String input) {
-            try {
-                if (!file.exists()) file.createNewFile();
-                if (file.isFile()) {
-                    FileWriter fw = new FileWriter(file);
-                    fw.write(input);
-                    fw.close();
-                }
-            } catch (IOException e) {}
-        }
-    }
+    
 }
