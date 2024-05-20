@@ -88,12 +88,29 @@ public class MainActivity extends Activity
     void addGitChanges (File stats_log) {
         //will add e.g 3 files +27 -6
         String script = "cd /storage/emulated/0/AppProjects/frog/app/src/main \n";
-        script += "input=$(git diff --shortstat) \n";
-        script += "files=$(echo $input | sed -E 's/^([0-9]+) files.*/\\1/') \n";
-        script += "insertions=$(echo $input | sed -E 's/.* ([0-9]+) insertions.*/+\\1/') \n";
-        script += "deletions=$(echo $input | sed -E 's/.* ([0-9]+) deletions.*/-\\1/') \n";
-        script += "output=\"$files files $insertions $deletions\" \n";
-        script += "echo $output >> "+stats_log.getAbsolutePath();
+        
+        String addChanges = "input=$(git diff --shortstat) \n";
+        addChanges += "files=$(echo $input | sed -E 's/^([0-9]+) files.*/files:\\1/') \n";
+        addChanges += "insertions=$(echo $input | sed -E 's/.* ([0-9]+) insertions.*/+\\1/') \n";
+        addChanges += "deletions=$(echo $input | sed -E 's/.* ([0-9]+) deletions.*/-\\1/') \n";
+        addChanges += "output=\"$files $insertions $deletions\" \n";
+        addChanges += "echo $output >> "+stats_log.getAbsolutePath();
+        
+        String commit = "echo Enter Commit Message \n\n";
+        commit += "echo just put \"uwu\" to set it to \"untitled\" \n";
+        commit += "echo add \\* at the start to amend \n";
+        commit += "echo commit message: \n";
+        commit += "read userInput \n";
+        commit += "git add . \n";
+        commit += "if [[ \"$userInput\" == *\"\\*\"* ]]; then \n";
+        commit += "    git commit --amend \n";
+        commit += "elif [[ \"$userInput\" == *\"uwu\"* ]] || [[ -z \"$userInput\" ]]; then\n";
+        commit += "    git commit -m \"untitled\" \n";
+        commit += "else \n";
+        commit += "    git commit -m \"$userInput\"\n";
+        commit += "fi";
+        
+        script += commit + "\n" + addChanges;
         TermuxTools.runScript(mContext, script);
     }
 
