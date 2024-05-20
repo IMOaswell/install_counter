@@ -2,15 +2,10 @@ package imo.install_counter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import java.io.File;
 
 public class MainActivity extends Activity 
@@ -22,12 +17,12 @@ public class MainActivity extends Activity
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = MainActivity.this;
-        if (!TermuxTools.hasPermission(mContext)){
+        if (!TermuxTools.hasPermission(mContext)) {
             TermuxTools.requestPermission(mContext);
             return;
         }
         setModeSetup();
-        
+
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             setModeRecieveApk(intent);
@@ -36,7 +31,7 @@ public class MainActivity extends Activity
 
     public void setModeSetup () {
         setContentView(R.layout.setup);
-        
+
     }
     public void setModeRecieveApk (Intent intent) {
         setContentView(R.layout.recieve_apk);
@@ -59,7 +54,7 @@ public class MainActivity extends Activity
                 }
             });
     }
-    
+
     void installApk (Uri apkUri) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(apkUri, "application/vnd.android.package-archive");

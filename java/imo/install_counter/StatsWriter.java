@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class StatsWriter
- {
+{
     static void recordStats (Context mContext, File stats_log, int index) {
         //will record e.g 44 2024-MAY-19 01:39PM files:3 +27 -6
         String recordString = index + " " + getCurrentDate() + " ";
@@ -42,7 +42,7 @@ public class StatsWriter
         addChanges += "insertions=$(echo $input | sed -E 's/.* ([0-9]+) insertions.*/+\\1/') \n";
         addChanges += "deletions=$(echo $input | sed -E 's/.* ([0-9]+) deletions.*/-\\1/') \n";
         addChanges += "output=\"$files $insertions $deletions\" \n";
-        addChanges += "echo $output >> "+stats_log.getAbsolutePath();
+        addChanges += "echo $output >> " + stats_log.getAbsolutePath();
 
         String commit = "echo Enter Commit Message \n\n";
         commit += "echo just put \"uwu\" to set it to \"untitled\" \n";
@@ -61,7 +61,7 @@ public class StatsWriter
         script += commit + "\n" + addChanges;
         TermuxTools.runScript(mContext, script);
     }
-    
+
     static void write (File file, String input) {
         try {
             if (!file.exists()) file.createNewFile();
@@ -72,5 +72,5 @@ public class StatsWriter
             }
         } catch (IOException e) {}
     }
-    
+
 }

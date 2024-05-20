@@ -6,15 +6,15 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class StatsReader
- {
-    
-    static Stats getLastLog(File stats_log){
+{
+
+    static Stats getLastLog (File stats_log) {
         String[] logs = read(stats_log).split("\n");
         String lastLog = logs[logs.length - 1];
-        
+
         return new Stats(lastLog);
     }
-    
+
     static String read (File file) {
         String filePath = file.getAbsolutePath();
         return read(filePath);
