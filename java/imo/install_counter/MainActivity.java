@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import java.io.File;
 
 public class MainActivity extends Activity 
@@ -35,14 +36,7 @@ public class MainActivity extends Activity
 
     public void setModeSetup () {
         setContentView(R.layout.setup);
-        Runnable delayedRunnable = new Runnable() {
-            @Override
-            public void run () {
-                String command = "~/.shortcuts/SHORTCUTS-UPDATE.sh";
-                TermuxTools.runCommand(mContext, command);
-            }
-        };
-        new Handler().postDelayed(delayedRunnable, 1000);
+        
     }
     public void setModeRecieveApk (Intent intent) {
         setContentView(R.layout.recieve_apk);
@@ -69,9 +63,10 @@ public class MainActivity extends Activity
     }
 
     void recordStats (File stats_log, int index) {
-        String recordString = index + " " + getCurrentDate() + " | " + getCharChangesCount();
+        String recordString = index + " " + getCurrentDate() + " | ";
         String previousContent = FileTools.readTextFile(stats_log);
         FileTools.writeTextFile(stats_log, previousContent + "\n" + recordString);
+        addGitChanges(stats_log);
     }
 
     String getCurrentDate () {
@@ -90,9 +85,16 @@ public class MainActivity extends Activity
         return DATE + " " + TIME;
     }
 
-    String getCharChangesCount () {
-        //TODO: get how many char for each text files is changed
-        return "";
+    void addGitChanges (File stats_log) {
+        //will add e.g 3 files +27 -6
+        String script = "cd /storage/emulated/0/AppProjects/frog/app/src/main \n";
+        script += "input=$(git diff --shortstat) \n";
+        script += "files=$(echo $input | sed -E 's/^([0-9]+) files.*/\\1/') \n";
+        script += "insertions=$(echo $input | sed -E 's/.* ([0-9]+) insertions.*/+\\1/') \n";
+        script += "deletions=$(echo $input | sed -E 's/.* ([0-9]+) deletions.*/-\\1/') \n";
+        script += "output=\"$files files $insertions $deletions\" \n";
+        script += "echo $output >> "+stats_log.getAbsolutePath();
+        TermuxTools.runScript(mContext, script);
     }
 
     void installApk (Uri apkUri) {
