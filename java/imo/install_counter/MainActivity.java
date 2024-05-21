@@ -36,6 +36,8 @@ public class MainActivity extends Activity
     public void setModeRecieveApk (Intent intent) {
         setContentView(R.layout.recieve_apk);
         final Uri apkUri = intent.getData();
+        //setTitle(ProjectFinder.getApkPackageName(mContext, apkUri));
+        setTitle(ProjectFinder.findProjectDirByPackageName(mContext, ProjectFinder.getApkPackageName(mContext, apkUri)));
         final int i = StatsReader.getLastLog(stats_log).INDEX;
 
         final Button btn = findViewById(R.id.btn);
