@@ -38,9 +38,9 @@ public class StatsWriter
         String script = "cd \'" + StatsReader.getMainDirPath(stats_log) + "\' \n";
 
         String addChanges = "input=$(git diff --shortstat) \n";
-        addChanges += "files=$(echo $input | sed -E 's/^([0-9]+) file.*/files:\\1/') \n";
-        addChanges += "insertions=$(echo $input | sed -E 's/.* ([0-9]+) insertion.*/+\\1/') \n";
-        addChanges += "deletions=$(echo $input | sed -E 's/.* ([0-9]+) deletion.*/-\\1/') \n";
+        addChanges += "files=$(echo $input | sed -n -E 's/^([0-9]+) file.*/files:\\1/p') \n";
+        addChanges += "insertions=$(echo $input | sed -n -E 's/.* ([0-9]+) insertion.*/+\\1/p') \n";
+        addChanges += "deletions=$(echo $input | sed -n -E 's/.* ([0-9]+) deletion.*/-\\1/p') \n";
         addChanges += "if [ -z \"$insertions\" ]; then \n";
         addChanges += "insertions=\"0\" \n";
         addChanges += "fi \n";
@@ -50,7 +50,6 @@ public class StatsWriter
         addChanges += "output=\"$files $insertions $deletions\" \n";
         addChanges += "echo $output \n";
         addChanges += "echo $output >> '" + stats_log.getAbsolutePath() + "' \n";
-        addChanges += "git diff --shortstat";
         String commit = "echo Enter Commit Message \n";
         commit += "nothing=\"probably just testing:D\" \n";
         commit += "echo put nothing to set it to \\\"$nothing\\\" \n";
