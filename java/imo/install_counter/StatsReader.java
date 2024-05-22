@@ -5,19 +5,33 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
 
 public class StatsReader
 {
-    static Stat getLastStat (Context mContext, File stats_log) {
-        if(!stats_log.exists()){
+    private static List<Stat> STATS = null;
+
+    static List<Stat> getStats (Context mContext, File stats_log) {
+        if (!stats_log.exists()) {
             StatsWriter.recordStat(mContext, stats_log, 0);
         }
-        String[] logs = read(stats_log).split("\n");
-        String lastLog = logs[logs.length - 1];
-        return new Stat(lastLog);
+        if (STATS == null) {
+            STATS = new ArrayList<>();
+            String[] logs = read(stats_log).split("\n");
+            for (String log : logs) {
+                STATS.add(new Stat(log));
+            }
+        }
+        return STATS;
     }
-    
-    static String getMainDirPath(File stats_log){
+
+    static Stat getLastStat (Context mContext, File stats_log) {
+        List<Stat> Stats = getStats(mContext, stats_log);
+        return Stats.get(Stats.size() - 1);
+    }
+
+    static String getMainDirPath (File stats_log) {
         File mainDir = new File(stats_log.getParent(), "/app/src/main/");
         System.out.println(mainDir.getAbsolutePath());
         return mainDir.exists() ? mainDir.getAbsolutePath() : null;
