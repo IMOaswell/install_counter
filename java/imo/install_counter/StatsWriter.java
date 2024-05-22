@@ -12,7 +12,7 @@ public class StatsWriter
 {
     static void recordStat (Context mContext, File stats_log, int index) {
         //will record e.g 44 2024-MAY-19 01:39pm files:3 +27 -6
-        String recordString = index + " " + getCurrentDate() + " " + getCurrentTime();
+        String recordString = index + " " + getCurrentDate() + " " + getCurrentTime() + " ";
         String previousContent = StatsReader.read(stats_log);
         write(stats_log, previousContent + "\n" + recordString);
         addGitChanges(mContext, stats_log);
