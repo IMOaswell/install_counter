@@ -62,7 +62,8 @@ public class StatsWriter
         commit += "\tfi \n";
         commit += "\tfi \n";
 
-        script += commit + "\n" + addChanges;
+        script += addChanges + "\n" + commit;
+        TermuxTools.runScript(mContext, script);
         TermuxTools.runScript(mContext, script);
     }
 
