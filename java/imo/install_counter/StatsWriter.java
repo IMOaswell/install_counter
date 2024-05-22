@@ -53,19 +53,14 @@ public class StatsWriter
         String commit = "echo Enter Commit Message \n";
         commit += "nothing=\"probably just testing:D\" \n";
         commit += "echo put nothing to set it to \\\"$nothing\\\" \n";
-        commit += "echo just put \\* to amend \n";
         commit += "echo commit message: \n";
         commit += "read userInput \n";
         commit += "git add . \n";
-        commit += "if [[ \"$userInput\" == *\"\\*\"* ]]; then \n";
-        commit += "\tgit commit --amend \n";
+        commit += "if [ -z \"$userInput\" ]; then \n";
+        commit += "\techo \"$nothing\" \n";
+        commit += "\tgit commit -m \"$nothing\" \n";
         commit += "else \n";
-        commit += "\tif [ -z \"$userInput\" ]; then \n";
-        commit += "\t\techo \"$nothing\" \n";
-        commit += "\t\tgit commit -m \"$nothing\" \n";
-        commit += "\telse \n";
-        commit += "\t\tgit commit -m \"$userInput\"\n";
-        commit += "\tfi \n";
+        commit += "\tgit commit -m \"$userInput\"\n";
         commit += "fi \n";
 
         script += addChanges + "\n" + commit;
