@@ -1,6 +1,6 @@
 package imo.install_counter;
 
-public class Stats
+public class Stat
 {
 
     //e.g 44 2024-MAY-19 01:39pm files:3 +27 -6
@@ -11,8 +11,8 @@ public class Stats
     int INSERTS;
     int DELETES;
     
-    Stats (){}
-    Stats (String log) {
+    Stat (){}
+    Stat (String log) {
         String[] parts = log.split(" ");
         if (parts.length < 3) return;
         INDEX = Integer.parseInt(parts[0]);

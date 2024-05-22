@@ -8,13 +8,13 @@ import java.io.IOException;
 
 public class StatsReader
 {
-    static Stats getLastStat (Context mContext, File stats_log) {
+    static Stat getLastStat (Context mContext, File stats_log) {
         if(!stats_log.exists()){
             StatsWriter.recordStat(mContext, stats_log, 0);
         }
         String[] logs = read(stats_log).split("\n");
         String lastLog = logs[logs.length - 1];
-        return new Stats(lastLog);
+        return new Stat(lastLog);
     }
     
     static String getMainDirPath(File stats_log){
