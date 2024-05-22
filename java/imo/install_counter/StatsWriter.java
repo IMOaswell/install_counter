@@ -43,8 +43,10 @@ public class StatsWriter
         addChanges += "deletions=$(echo $input | sed -E 's/.* ([0-9]+) deletions.*/-\\1/') \n";
         addChanges += "output=\"$files $insertions $deletions\" \n";
         addChanges += "echo $output >> " + stats_log.getAbsolutePath();
+        
         String commit = "echo Enter Commit Message \n";
-        commit += "echo put nothing to set it to \"untitled\" \n";
+        commit += "nothing=\"probably just testing:D\" \n";
+        commit += "echo put nothing to set it to \" $nothing \" \n";
         commit += "echo just put \\* to amend \n";
         commit += "echo commit message: \n";
         commit += "read userInput \n";
@@ -53,8 +55,8 @@ public class StatsWriter
         commit += "\tgit commit --amend \n";
         commit += "else \n";
         commit += "\tif [ -z \"$userInput\" ]; then\n";
-        commit += "\t\techo untitled \n";
-        commit += "\t\tgit commit -m \"untitled\" \n";
+        commit += "\t\techo \"$nothing\" \n";
+        commit += "\t\tgit commit -m \"$nothing\" \n";
         commit += "\telse \n";
         commit += "\t\tgit commit -m \"$userInput\"\n";
         commit += "\tfi \n";
