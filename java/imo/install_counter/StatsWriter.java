@@ -41,6 +41,12 @@ public class StatsWriter
         addChanges += "files=$(echo $input | sed -E 's/^([0-9]+) file.*/files:\\1/') \n";
         addChanges += "insertions=$(echo $input | sed -E 's/.* ([0-9]+) insertion.*/+\\1/') \n";
         addChanges += "deletions=$(echo $input | sed -E 's/.* ([0-9]+) deletion.*/-\\1/') \n";
+        addChanges += "if [ -z \"$insertions\" ]; then \n";
+        addChanges += "insertions=\"0\" \n";
+        addChanges += "fi \n";
+        addChanges += "if [ -z \"$deletions\" ]; then \n";
+        addChanges += "deletions=\"0\" \n";
+        addChanges += "fi \n";
         addChanges += "output=\"$files $insertions $deletions\" \n";
         addChanges += "echo $output \n";
         addChanges += "echo $output >> '" + stats_log.getAbsolutePath() + "' \n";

@@ -35,7 +35,6 @@ public class MainActivity extends Activity
 
     }
     public void setModeRecieveApk (Intent intent) {
-        setTitle("testing:D");
         setContentView(R.layout.recieve_apk);
         final Uri apkUri = intent.getData();
         String apkPackageName = ProjectFinder.getApkPackageName(mContext, apkUri);
