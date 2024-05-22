@@ -64,7 +64,6 @@ public class StatsWriter
 
         script += addChanges + "\n" + commit;
         TermuxTools.runScript(mContext, script);
-        TermuxTools.runScript(mContext, script);
     }
 
     private static void write (File file, String input) {
