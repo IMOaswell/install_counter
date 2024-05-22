@@ -39,11 +39,11 @@ public class StatsWriter
 
         String addChanges = "input=$(git diff --shortstat) \n";
         addChanges += "files=$(echo $input | sed -E 's/^([0-9]+) file.*/files:\\1/') \n";
-        addChanges += "insertions=$(echo $input | sed -E 's/.* ([0-9]+) insertions.*/+\\1/') \n";
-        addChanges += "deletions=$(echo $input | sed -E 's/.* ([0-9]+) deletions.*/-\\1/') \n";
+        addChanges += "insertions=$(echo $input | sed -E 's/.* ([0-9]+) insertion.*/+\\1/') \n";
+        addChanges += "deletions=$(echo $input | sed -E 's/.* ([0-9]+) deletion.*/-\\1/') \n";
         addChanges += "output=\"$files $insertions $deletions\" \n";
         addChanges += "echo $output \n";
-        addChanges += "echo $output >> " + stats_log.getAbsolutePath() +" \n";
+        addChanges += "echo $output >> " + stats_log.getAbsolutePath();
         String commit = "echo Enter Commit Message \n";
         commit += "nothing=\"probably just testing:D\" \n";
         commit += "echo put nothing to set it to \\\"$nothing\\\" \n";
