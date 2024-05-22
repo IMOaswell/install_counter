@@ -43,7 +43,8 @@ public class StatsWriter
         addChanges += "deletions=$(echo $input | sed -E 's/.* ([0-9]+) deletion.*/-\\1/') \n";
         addChanges += "output=\"$files $insertions $deletions\" \n";
         addChanges += "echo $output \n";
-        addChanges += "echo $output >> '" + stats_log.getAbsolutePath() + "'";
+        addChanges += "echo $output >> '" + stats_log.getAbsolutePath() + "' \n";
+        addChanges += "git diff --shortstat";
         String commit = "echo Enter Commit Message \n";
         commit += "nothing=\"probably just testing:D\" \n";
         commit += "echo put nothing to set it to \\\"$nothing\\\" \n";
