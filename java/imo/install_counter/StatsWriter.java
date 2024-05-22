@@ -17,7 +17,7 @@ public class StatsWriter
         addGitChanges(mContext, stats_log);
     }
 
-    static String getCurrentDate () {
+    private static String getCurrentDate () {
         //will return e.g 2024-MAY-19 01:39PM
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -33,9 +33,9 @@ public class StatsWriter
         return DATE + " " + TIME;
     }
 
-    static void addGitChanges (Context mContext, File stats_log) {
+    private static void addGitChanges (Context mContext, File stats_log) {
         //will add e.g files:3 +27 -6
-        String script = "cd /storage/emulated/0/AppProjects/frog/app/src/main \n";
+        String script = "cd \'" + StatsReader.getMainDirPath(stats_log) + "\' \n";
 
         String addChanges = "input=$(git diff --shortstat) \n";
         addChanges += "files=$(echo $input | sed -E 's/^([0-9]+) files.*/files:\\1/') \n";
@@ -62,7 +62,7 @@ public class StatsWriter
         TermuxTools.runScript(mContext, script);
     }
 
-    static void write (File file, String input) {
+    private static void write (File file, String input) {
         try {
             if (!file.exists()) file.createNewFile();
             if (file.isFile()) {

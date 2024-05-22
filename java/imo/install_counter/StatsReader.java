@@ -1,5 +1,6 @@
 package imo.install_counter;
 
+import android.content.Context;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,11 +9,20 @@ import java.io.IOException;
 public class StatsReader
 {
 
-    static Stats getLastLog (File stats_log) {
+    static Stats getLastLog (Context mContext, File stats_log) {
+        if(!stats_log.exists()){
+            StatsWriter.recordStats(mContext, stats_log, 0);
+        }
         String[] logs = read(stats_log).split("\n");
         String lastLog = logs[logs.length - 1];
 
-        return new Stats(lastLog);
+        return new Stats(lastLog, getMainDirPath(stats_log));
+    }
+    
+    static String getMainDirPath(File stats_log){
+        File mainDir = new File(stats_log.getParent(), "/app/src/main/");
+        System.out.println(mainDir.getAbsolutePath());
+        return mainDir.exists() ? mainDir.getAbsolutePath() : null;
     }
 
     static String read (File file) {

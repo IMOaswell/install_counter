@@ -48,7 +48,7 @@ public class ProjectFinder
                 String fullProjectJavaPath = dir + "/app/src/main/java/" + packageNameAsDir;
 
                 if (new File(fullProjectJavaPath).exists()) {
-                    return fullProjectJavaPath;
+                    return dir;
                 } else {
                     if (new File(dir + "/app/src/main/java/").exists()) continue;
                     String result = findProjectDirByPackageName(packageNameAsDir, file.getAbsolutePath());

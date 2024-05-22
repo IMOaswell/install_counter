@@ -11,7 +11,8 @@ import java.io.File;
 public class MainActivity extends Activity 
 {
     Activity mContext;
-    final File stats_log = new File("/storage/emulated/0/AppProjects/frog/stats.log");
+    String foundProjectDirPath;
+    File stats_log;
     
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -36,9 +37,11 @@ public class MainActivity extends Activity
     public void setModeRecieveApk (Intent intent) {
         setContentView(R.layout.recieve_apk);
         final Uri apkUri = intent.getData();
-        //setTitle(ProjectFinder.getApkPackageName(mContext, apkUri));
-        setTitle(ProjectFinder.findProjectDirByPackageName(mContext, ProjectFinder.getApkPackageName(mContext, apkUri)));
-        final int i = StatsReader.getLastLog(stats_log).INDEX;
+        String apkPackageName = ProjectFinder.getApkPackageName(mContext, apkUri);
+        foundProjectDirPath = ProjectFinder.findProjectDirByPackageName(mContext, apkPackageName);
+        if(foundProjectDirPath == null) return;
+        stats_log = new File(foundProjectDirPath,  "stats.log");
+        final int i = StatsReader.getLastLog(mContext, stats_log).INDEX;
 
         final Button btn = findViewById(R.id.btn);
         btn.setText(i + "");
