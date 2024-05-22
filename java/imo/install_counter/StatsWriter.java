@@ -51,7 +51,7 @@ public class StatsWriter
         commit += "echo commit message: \n";
         commit += "read userInput \n";
         commit += "git add . \n";
-        commit += "if [[ \"$userInput\" == *\"\\*\"* ]]; then";
+        commit += "if [ \"$userInput\" == *\"\\*\"* ]; then";
         commit += "\tgit commit --amend \n";
         commit += "else \n";
         commit += "\tif [ -z \"$userInput\" ]; then\n";
