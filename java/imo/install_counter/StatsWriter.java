@@ -38,12 +38,12 @@ public class StatsWriter
         String script = "cd \'" + StatsReader.getMainDirPath(stats_log) + "\' \n";
 
         String addChanges = "input=$(git diff --shortstat) \n";
-        addChanges += "files=$(echo $input | sed -E 's/^([0-9]+) files.*/files:\\1/') \n";
+        addChanges += "files=$(echo $input | sed -E 's/^([0-9]+) file.*/files:\\1/') \n";
         addChanges += "insertions=$(echo $input | sed -E 's/.* ([0-9]+) insertions.*/+\\1/') \n";
         addChanges += "deletions=$(echo $input | sed -E 's/.* ([0-9]+) deletions.*/-\\1/') \n";
         addChanges += "output=\"$files $insertions $deletions\" \n";
+        addChanges += "echo $output \n";
         addChanges += "echo $output >> " + stats_log.getAbsolutePath() +" \n";
-        addChanges += "echo $output";
         String commit = "echo Enter Commit Message \n";
         commit += "nothing=\"probably just testing:D\" \n";
         commit += "echo put nothing to set it to \\\"$nothing\\\" \n";
@@ -60,7 +60,7 @@ public class StatsWriter
         commit += "\telse \n";
         commit += "\t\tgit commit -m \"$userInput\"\n";
         commit += "\tfi \n";
-        commit += "\tfi \n";
+        commit += "fi \n";
 
         script += addChanges + "\n" + commit;
         TermuxTools.runScript(mContext, script);
