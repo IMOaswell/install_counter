@@ -10,9 +10,9 @@ public class Stats
     int FILES_CHANGED;
     int INSERTS;
     int DELETES;
-    String GIT_PATH;
+    
     Stats (){}
-    Stats (String log, String gitPath) {
+    Stats (String log) {
         String[] parts = log.split(" ");
         if (parts.length < 3) return;
         INDEX = Integer.parseInt(parts[0]);
@@ -22,6 +22,5 @@ public class Stats
         FILES_CHANGED = Integer.parseInt(parts[3].replace("files:", ""));
         INSERTS = Integer.parseInt(parts[4].replace("+", ""));
         DELETES = Integer.parseInt(parts[5].replace("-", ""));
-        GIT_PATH = gitPath;
     }
 }

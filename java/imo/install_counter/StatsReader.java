@@ -16,7 +16,7 @@ public class StatsReader
         String[] logs = read(stats_log).split("\n");
         String lastLog = logs[logs.length - 1];
 
-        return new Stats(lastLog, getMainDirPath(stats_log));
+        return new Stats(lastLog);
     }
     
     static String getMainDirPath(File stats_log){
