@@ -42,11 +42,11 @@ public class StatsWriter
         addChanges += "insertions=$(echo $input | sed -E 's/.* ([0-9]+) insertions.*/+\\1/') \n";
         addChanges += "deletions=$(echo $input | sed -E 's/.* ([0-9]+) deletions.*/-\\1/') \n";
         addChanges += "output=\"$files $insertions $deletions\" \n";
-        addChanges += "echo $output >> " + stats_log.getAbsolutePath();
-        
+        addChanges += "echo $output >> " + stats_log.getAbsolutePath() +" \n";
+        addChanges += "echo $output";
         String commit = "echo Enter Commit Message \n";
         commit += "nothing=\"probably just testing:D\" \n";
-        commit += "echo put nothing to set it to \" $nothing \" \n";
+        commit += "echo put nothing to set it to \\\"$nothing\\\" \n";
         commit += "echo just put \\* to amend \n";
         commit += "echo commit message: \n";
         commit += "read userInput \n";
