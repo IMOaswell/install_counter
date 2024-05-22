@@ -10,7 +10,7 @@ import java.io.IOException;
 public class StatsWriter
 {
     static void recordStats (Context mContext, File stats_log, int index) {
-        //will record e.g 44 2024-MAY-19 01:39PM files:3 +27 -6
+        //will record e.g 44 2024-MAY-19 01:39pm files:3 +27 -6
         String recordString = index + " " + getCurrentDate() + " ";
         String previousContent = StatsReader.read(stats_log);
         write(stats_log, previousContent + "\n" + recordString);
@@ -18,7 +18,7 @@ public class StatsWriter
     }
 
     private static String getCurrentDate () {
-        //will return e.g 2024-MAY-19 01:39PM
+        //will return e.g 2024-MAY-19 01:39pm
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -28,7 +28,7 @@ public class StatsWriter
         String hour = String.format("%02d", calendar.get(Calendar.HOUR));
         String minute = String.format("%02d", calendar.get(Calendar.MINUTE));
         int amPm = calendar.get(Calendar.AM_PM);
-        String amPmString = (amPm == Calendar.AM) ? "AM" : "PM";
+        String amPmString = (amPm == Calendar.AM) ? "am" : "pm";
         final String TIME = hour + ":" + minute + amPmString;
         return DATE + " " + TIME;
     }

@@ -3,7 +3,7 @@ package imo.install_counter;
 public class Stats
 {
 
-    //e.g 44 2024-MAY-19 01:39PM files:3 +27 -6
+    //e.g 44 2024-MAY-19 01:39pm files:3 +27 -6
     int INDEX;
     String DATE;
     String TIME;
