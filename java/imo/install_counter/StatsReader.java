@@ -8,14 +8,12 @@ import java.io.IOException;
 
 public class StatsReader
 {
-
-    static Stats getLastLog (Context mContext, File stats_log) {
+    static Stats getLastStat (Context mContext, File stats_log) {
         if(!stats_log.exists()){
-            StatsWriter.recordStats(mContext, stats_log, 0);
+            StatsWriter.recordStat(mContext, stats_log, 0);
         }
         String[] logs = read(stats_log).split("\n");
         String lastLog = logs[logs.length - 1];
-
         return new Stats(lastLog);
     }
     

@@ -41,7 +41,7 @@ public class MainActivity extends Activity
         foundProjectDirPath = ProjectFinder.findProjectDirByPackageName(mContext, apkPackageName);
         if(foundProjectDirPath == null) return;
         stats_log = new File(foundProjectDirPath,  "stats.log");
-        final int i = StatsReader.getLastLog(mContext, stats_log).INDEX;
+        final int i = StatsReader.getLastStat(mContext, stats_log).INDEX;
 
         final Button btn = findViewById(R.id.btn);
         btn.setText(i + "");
@@ -53,7 +53,7 @@ public class MainActivity extends Activity
                     }
                     btn.setEnabled(false);
                     int j = i + 1;
-                    StatsWriter.recordStats(mContext, stats_log, j);
+                    StatsWriter.recordStat(mContext, stats_log, j);
                     btn.setText(j + "");
                     installApk(apkUri);
                 }
