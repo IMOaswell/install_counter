@@ -43,6 +43,8 @@ public class MainActivity extends Activity
         stats_log = new File(foundProjectDirPath,  "stats.log");
         final int i = StatsReader.getLastStat(mContext, stats_log).INDEX;
 
+        StatsWriter.optimizeStatsLog(stats_log);
+        
         final Button btn = findViewById(R.id.btn);
         btn.setText(i + "");
         btn.setOnClickListener(new View.OnClickListener() {

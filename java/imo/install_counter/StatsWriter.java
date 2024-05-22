@@ -6,6 +6,7 @@ import android.icu.util.Calendar;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
 
 public class StatsWriter
 {
@@ -16,7 +17,6 @@ public class StatsWriter
         write(stats_log, previousContent + "\n" + recordString);
         addGitChanges(mContext, stats_log);
     }
-    
     
     private static String getCurrentDate () {
         //will return e.g 2024-MAY-19
@@ -71,6 +71,34 @@ public class StatsWriter
 
         script += addChanges + "\n" + commit;
         TermuxTools.runScript(mContext, script);
+    }
+    
+    static void optimizeStatsLog(File stats_log){
+        collapseDates(stats_log);
+    }
+    
+    static void collapseDates(File stats_log){
+        String[] logs = StatsReader.read(stats_log).split("\n");
+        HashSet<String> dateSet = new HashSet<>();
+        String[] outputs = new String[logs.length];
+
+        for (int i = 0; i < logs.length; i++) {
+            Stat stat = new Stat(logs[i]);
+            String date = stat.DATE;
+            
+            if (dateSet.contains(date)) {
+                outputs[i] = logs[i].replace(date, "*");
+            } else {
+                dateSet.add(date);
+                outputs[i] = logs[i];
+            }
+        }
+        String newContent = "";
+        for(String output : outputs){
+            newContent += output + "\n";
+        }
+        
+        write(stats_log, newContent);
     }
 
     private static void write (File file, String input) {
