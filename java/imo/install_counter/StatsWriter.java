@@ -11,26 +11,32 @@ public class StatsWriter
 {
     static void recordStat (Context mContext, File stats_log, int index) {
         //will record e.g 44 2024-MAY-19 01:39pm files:3 +27 -6
-        String recordString = index + " " + getCurrentDate() + " ";
+        String recordString = index + " " + getCurrentDate() + " " + getCurrentTime();
         String previousContent = StatsReader.read(stats_log);
         write(stats_log, previousContent + "\n" + recordString);
         addGitChanges(mContext, stats_log);
     }
-
+    
+    
     private static String getCurrentDate () {
-        //will return e.g 2024-MAY-19 01:39pm
+        //will return e.g 2024-MAY-19
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         String monthString = new SimpleDateFormat("MMM").format(calendar.getTime());
         final String DATE = year + "-" + monthString + "-" + day;
-
+        return DATE;
+    }
+    
+    private static String getCurrentTime () {
+        //will return e.g 01:39pm
+        Calendar calendar = Calendar.getInstance();
         String hour = String.format("%02d", calendar.get(Calendar.HOUR));
         String minute = String.format("%02d", calendar.get(Calendar.MINUTE));
         int amPm = calendar.get(Calendar.AM_PM);
         String amPmString = (amPm == Calendar.AM) ? "am" : "pm";
         final String TIME = hour + ":" + minute + amPmString;
-        return DATE + " " + TIME;
+        return TIME;
     }
 
     private static void addGitChanges (Context mContext, File stats_log) {
