@@ -11,11 +11,15 @@ import java.util.HashSet;
 public class StatsWriter
 {
     static void recordStat (Context mContext, File stats_log, int index) {
+        recordStat(mContext, stats_log, index, false);
+    }
+    
+    static void recordStat (Context mContext, File stats_log, int index, boolean isAmmend) {
         //will record e.g 44 2024-MAY-19 01:39pm files:3 +27 -6
         String recordString = index + " " + getCurrentDate() + " " + getCurrentTime() + " ";
         String previousContent = StatsReader.read(stats_log);
         write(stats_log, previousContent + "\n" + recordString);
-        addGitChanges(mContext, stats_log);
+        addGitChanges(mContext, stats_log, isAmmend);
     }
     
     private static String getCurrentDate () {
@@ -39,7 +43,7 @@ public class StatsWriter
         return TIME;
     }
 
-    private static void addGitChanges (Context mContext, File stats_log) {
+    private static void addGitChanges (Context mContext, File stats_log, boolean isAmmend) {
         //will add e.g files:3 +27 -6
         String script = "cd \'" + StatsReader.getMainDirPath(stats_log) + "\' \n";
 
@@ -68,8 +72,14 @@ public class StatsWriter
         commit += "else \n";
         commit += "\tgit commit -m \"$userInput\"\n";
         commit += "fi \n";
-
-        script += addChanges + "\n" + commit;
+        String ammend = "echo Commit Ammend \n";
+        ammend += "echo 'are u sure? (press any key to confirm)' \n";
+        ammend += "read userInput \n";
+        ammend += "git add . \n";
+        ammend += "git commit --amend --no-edit \n";
+        
+        script += addChanges + "\n";
+        script += isAmmend ? ammend : commit;
         TermuxTools.runScript(mContext, script);
     }
     

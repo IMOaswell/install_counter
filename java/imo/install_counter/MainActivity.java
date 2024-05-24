@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import java.io.File;
+import android.widget.CheckBox;
 
 public class MainActivity extends Activity 
 {
@@ -47,6 +48,7 @@ public class MainActivity extends Activity
         StatsWriter.optimizeStatsLog(stats_log);
 
         final Button btn = findViewById(R.id.btn);
+        final CheckBox box = findViewById(R.id.box);
         btn.setText(currentStatIndex + "");
         btn.setOnClickListener(new View.OnClickListener() {
                 public void onClick (View v) {
@@ -56,7 +58,8 @@ public class MainActivity extends Activity
                     }
                     btn.setEnabled(false);
                     int newStatIndex = currentStatIndex + 1;
-                    StatsWriter.recordStat(mContext, stats_log, newStatIndex);
+                    boolean isAmmend = box.isChecked();
+                    StatsWriter.recordStat(mContext, stats_log, newStatIndex, isAmmend);
                     btn.setText(newStatIndex + "");
                     installApk(apkUri);
                 }
