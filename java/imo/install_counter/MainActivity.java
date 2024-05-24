@@ -28,12 +28,12 @@ public class MainActivity extends Activity
         if (recieveApk) {
             setModeRecieveApk(intent.getData());
         } else {
-            setModeSetup();
+            setModeInsights();
         } 
     }
 
-    public void setModeSetup () {
-        setContentView(R.layout.setup);
+    public void setModeInsights () {
+        setContentView(R.layout.insights);
 
     }
     public void setModeRecieveApk (final Uri apkUri) {
