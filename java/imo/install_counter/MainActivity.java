@@ -11,7 +11,7 @@ import java.io.File;
 public class MainActivity extends Activity 
 {
     Activity mContext;
-    
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,10 +23,10 @@ public class MainActivity extends Activity
 
         Intent intent = getIntent();
         boolean recieveApk = Intent.ACTION_VIEW.equals(intent.getAction());
-        
-        if (recieveApk){
+
+        if (recieveApk) {
             setModeRecieveApk(intent.getData());
-        }else{
+        } else {
             setModeSetup();
         } 
     }
@@ -37,15 +37,15 @@ public class MainActivity extends Activity
     }
     public void setModeRecieveApk (final Uri apkUri) {
         setContentView(R.layout.recieve_apk);
-        
+
         String apkPackageName = ProjectFinder.getApkPackageName(mContext, apkUri);
         String foundProjectDirPath = ProjectFinder.findProjectDirByPackageName(mContext, apkPackageName);
-        if(foundProjectDirPath == null) return;
+        if (foundProjectDirPath == null) return;
         final File stats_log = new File(foundProjectDirPath,  "stats.log");
         final int currentStatIndex = StatsReader.getLastStat(mContext, stats_log).INDEX;
 
         StatsWriter.optimizeStatsLog(stats_log);
-        
+
         final Button btn = findViewById(R.id.btn);
         btn.setText(currentStatIndex + "");
         btn.setOnClickListener(new View.OnClickListener() {

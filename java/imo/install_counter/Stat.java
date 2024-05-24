@@ -10,8 +10,8 @@ public class Stat
     int FILES_CHANGED;
     int INSERTS;
     int DELETES;
-    
-    Stat (){}
+
+    Stat () {}
     Stat (String log) {
         String[] parts = log.split(" ");
         if (parts.length < 3) return;
