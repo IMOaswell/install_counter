@@ -11,8 +11,6 @@ import java.io.File;
 public class MainActivity extends Activity 
 {
     Activity mContext;
-    String foundProjectDirPath;
-    File stats_log;
     
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -22,31 +20,34 @@ public class MainActivity extends Activity
             TermuxTools.requestPermission(mContext);
             return;
         }
-        setModeSetup();
 
         Intent intent = getIntent();
-        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            setModeRecieveApk(intent);
-        }
+        boolean recieveApk = Intent.ACTION_VIEW.equals(intent.getAction());
+        
+        if (recieveApk){
+            setModeRecieveApk(intent.getData());
+        }else{
+            setModeSetup();
+        } 
     }
 
     public void setModeSetup () {
         setContentView(R.layout.setup);
 
     }
-    public void setModeRecieveApk (Intent intent) {
+    public void setModeRecieveApk (final Uri apkUri) {
         setContentView(R.layout.recieve_apk);
-        final Uri apkUri = intent.getData();
+        
         String apkPackageName = ProjectFinder.getApkPackageName(mContext, apkUri);
-        foundProjectDirPath = ProjectFinder.findProjectDirByPackageName(mContext, apkPackageName);
+        String foundProjectDirPath = ProjectFinder.findProjectDirByPackageName(mContext, apkPackageName);
         if(foundProjectDirPath == null) return;
-        stats_log = new File(foundProjectDirPath,  "stats.log");
-        final int i = StatsReader.getLastStat(mContext, stats_log).INDEX;
+        final File stats_log = new File(foundProjectDirPath,  "stats.log");
+        final int currentStatIndex = StatsReader.getLastStat(mContext, stats_log).INDEX;
 
         StatsWriter.optimizeStatsLog(stats_log);
         
         final Button btn = findViewById(R.id.btn);
-        btn.setText(i + "");
+        btn.setText(currentStatIndex + "");
         btn.setOnClickListener(new View.OnClickListener() {
                 public void onClick (View v) {
                     if (apkUri == null) {
@@ -54,9 +55,9 @@ public class MainActivity extends Activity
                         return;
                     }
                     btn.setEnabled(false);
-                    int j = i + 1;
-                    StatsWriter.recordStat(mContext, stats_log, j);
-                    btn.setText(j + "");
+                    int newStatIndex = currentStatIndex + 1;
+                    StatsWriter.recordStat(mContext, stats_log, newStatIndex);
+                    btn.setText(newStatIndex + "");
                     installApk(apkUri);
                 }
             });
