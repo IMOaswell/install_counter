@@ -24,13 +24,12 @@ public class BarGraphView extends View
         float startX, startY;
         float stopX, stopY;
         
-        float paddingHorizontal = canvas.getWidth() / 60;
-        float paddingVertical = paddingHorizontal;
+        float padding = canvas.getWidth() / 60;
         
-        startX = paddingHorizontal; 
-        startY = paddingVertical;
-        stopX = paddingHorizontal;
-        stopY = canvasHeight - paddingVertical;
+        startX = padding; 
+        startY = padding;
+        stopX = padding;
+        stopY = canvasHeight - padding;
         
         canvas.drawLine(startX, startY, stopX, stopY, paint);
     }
