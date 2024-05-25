@@ -17,6 +17,7 @@ public class BarGraphView extends View
     protected void onDraw (Canvas canvas) {
         super.onDraw(canvas);
         int canvasHeight = canvas.getHeight();
+        int canvasWidth = canvas.getWidth();
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
@@ -25,5 +26,13 @@ public class BarGraphView extends View
         
         float[] line1 = {padding, padding, padding, canvasHeight - padding};
         canvas.drawLine(line1[0], line1[1], line1[2], line1[3], paint);
+        
+        float startX, startY, stopX, stopY;
+        startX = padding;
+        startY = canvasHeight - padding;
+        stopX = canvasWidth - padding;
+        stopY = canvasHeight - padding;
+        float[] line2 = {startX, startY, stopX, stopY};
+        canvas.drawLine(line2[0], line2[1], line2[2], line2[3], paint);
     }
 }
