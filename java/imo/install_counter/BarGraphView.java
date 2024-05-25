@@ -21,16 +21,9 @@ public class BarGraphView extends View
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
         
-        float startX, startY;
-        float stopX, stopY;
-        
         float padding = canvas.getWidth() / 60;
         
-        startX = padding; 
-        startY = padding;
-        stopX = padding;
-        stopY = canvasHeight - padding;
-        
-        canvas.drawLine(startX, startY, stopX, stopY, paint);
+        float[] line1 = {padding, padding, padding, canvasHeight - padding};
+        canvas.drawLine(line1[0], line1[1], line1[2], line1[3], paint);
     }
 }
