@@ -27,12 +27,7 @@ public class BarGraphView extends View
         float[] line1 = {padding, padding, padding, canvasHeight - padding};
         canvas.drawLine(line1[0], line1[1], line1[2], line1[3], paint);
         
-        float startX, startY, stopX, stopY;
-        startX = padding;
-        startY = canvasHeight - padding;
-        stopX = canvasWidth - padding;
-        stopY = canvasHeight - padding;
-        float[] line2 = {startX, startY, stopX, stopY};
+        float[] line2 = {padding, canvasHeight - padding, canvasWidth - padding, canvasHeight - padding};
         canvas.drawLine(line2[0], line2[1], line2[2], line2[3], paint);
     }
 }
