@@ -44,6 +44,7 @@ public class StatsWriter
     }
 
     private static void addGitChanges (Context mContext, File stats_log, boolean isAmmend) {
+        //TODO: fix bug when a new file is added and it doesnt see insetions
         //will add e.g files:3 +27 -6
         String script = "cd \'" + StatsReader.getMainDirPath(stats_log) + "\' \n";
 

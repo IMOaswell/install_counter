@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import java.io.File;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 
 public class MainActivity extends Activity 
 {
@@ -33,8 +34,14 @@ public class MainActivity extends Activity
     }
 
     public void setModeInsights () {
-        setContentView(R.layout.insights);
-
+        //setContentView(R.layout.insights);
+        LinearLayout testLayout = new LinearLayout(mContext);
+        BarGraphView barGraph = new BarGraphView(mContext);
+        barGraph.setLayoutParams(new LinearLayout.LayoutParams(
+                                     LinearLayout.LayoutParams.MATCH_PARENT, 
+                                     testLayout.getHeight() / 3));
+        testLayout.addView(barGraph);
+        setContentView(testLayout);
     }
     public void setModeRecieveApk (final Uri apkUri) {
         setContentView(R.layout.recieve_apk);
