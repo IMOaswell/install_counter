@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.view.Gravity;
 
 public class BarGraphView
 {
@@ -54,7 +55,7 @@ public class BarGraphView
     }
 
     static TextView createBar(Context mContext, String text){
-        TextView textview = new TextView(mContext);
+        final TextView textview = new TextView(mContext);
         textview.setText(text);
         textview.setBackgroundColor(Color.BLACK);
         textview.setTextColor(Color.WHITE);
@@ -63,6 +64,17 @@ public class BarGraphView
             LinearLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(0, BAR_SPACING, 0, 0);
         textview.setLayoutParams(layoutParams);
+        textview.setLines(2);
+        textview.setGravity(Gravity.CENTER_VERTICAL);
+        textview.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout () {
+                    textview.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                    int padding = (int) textview.getHeight() / 6;
+                    textview.setPadding(padding, padding, padding, padding);
+                }
+            });
         return textview;
     }
 }
