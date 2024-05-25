@@ -22,6 +22,8 @@ public class BarGraphView
         layout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout () {
+                    layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    
                     int padding = (int) layout.getWidth() / 60;
                     layout.setPadding(padding, padding, padding, padding);
                     layout.setBackground(drawCanvas(layout, layout.getWidth(), layout.getHeight(), padding));
