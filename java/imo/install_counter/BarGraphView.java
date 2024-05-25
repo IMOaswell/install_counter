@@ -28,8 +28,8 @@ public class BarGraphView
                 }
             });
         
-        layout.addView(createBar(mContext));
-        layout.addView(createBar(mContext));
+        layout.addView(createBar(mContext, "hello"));
+        layout.addView(createBar(mContext, "world"));
         return layout;
     }
     
@@ -49,9 +49,11 @@ public class BarGraphView
         return new BitmapDrawable(view.getResources(), bitmap);
     }
     
-    static TextView createBar(Context mContext){
+    static TextView createBar(Context mContext, String text){
         TextView textview = new TextView(mContext);
-        textview.setText("■■■■■■■■■");
+        textview.setText(text);
+        textview.setBackgroundColor(Color.BLACK);
+        textview.setTextColor(Color.WHITE);
         return textview;
     }
 }
