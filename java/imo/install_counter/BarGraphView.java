@@ -10,11 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class BarGraphView
 {
+    static final int BAR_SPACING = 25;
     static ViewGroup create (final Context mContext) {
+        
         final LinearLayout layout = new LinearLayout(mContext);
+        layout.setOrientation(LinearLayout.VERTICAL);
         layout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout () {
@@ -23,6 +27,9 @@ public class BarGraphView
                     layout.setBackground(drawCanvas(layout, layout.getWidth(), layout.getHeight(), padding));
                 }
             });
+        
+        layout.addView(createBar(mContext));
+        layout.addView(createBar(mContext));
         return layout;
     }
     
@@ -40,5 +47,11 @@ public class BarGraphView
         float[] line2 = {padding, canvasHeight - padding, canvasWidth - padding, canvasHeight - padding};
         canvas.drawLine(line2[0], line2[1], line2[2], line2[3], paint);
         return new BitmapDrawable(view.getResources(), bitmap);
+    }
+    
+    static TextView createBar(Context mContext){
+        TextView textview = new TextView(mContext);
+        textview.setText("■■■■■■■■■");
+        return textview;
     }
 }
