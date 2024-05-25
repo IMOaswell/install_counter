@@ -9,6 +9,7 @@ import android.widget.Button;
 import java.io.File;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.view.ViewGroup;
 
 public class MainActivity extends Activity 
 {
@@ -41,7 +42,7 @@ public class MainActivity extends Activity
         testLayout.post(new Runnable(){
             @Override
             public void run(){
-                BarGraphView barGraph = new BarGraphView(mContext);
+                ViewGroup barGraph = BarGraphView.create(mContext);
                 
                 int barGraphHeight = testLayout.getHeight() / 3;
                 barGraph.setLayoutParams(new LinearLayout.LayoutParams(
