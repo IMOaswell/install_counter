@@ -25,7 +25,7 @@ public class BarGraphView extends View
         float stopX, stopY;
         
         float paddingHorizontal = canvas.getWidth() / 60;
-        float paddingVertical = canvas.getHeight() / 60;
+        float paddingVertical = paddingHorizontal;
         
         startX = paddingHorizontal; 
         startY = paddingVertical;

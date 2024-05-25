@@ -35,13 +35,21 @@ public class MainActivity extends Activity
 
     public void setModeInsights () {
         //setContentView(R.layout.insights);
-        LinearLayout testLayout = new LinearLayout(mContext);
-        BarGraphView barGraph = new BarGraphView(mContext);
-        barGraph.setLayoutParams(new LinearLayout.LayoutParams(
-                                     LinearLayout.LayoutParams.MATCH_PARENT, 
-                                     testLayout.getHeight() / 3));
-        testLayout.addView(barGraph);
+        final LinearLayout testLayout = new LinearLayout(mContext);
         setContentView(testLayout);
+        
+        testLayout.post(new Runnable(){
+            @Override
+            public void run(){
+                BarGraphView barGraph = new BarGraphView(mContext);
+                
+                int barGraphHeight = testLayout.getHeight() / 3;
+                barGraph.setLayoutParams(new LinearLayout.LayoutParams(
+                                             LinearLayout.LayoutParams.MATCH_PARENT, 
+                                             barGraphHeight));
+                testLayout.addView(barGraph);
+            }
+        });                  
     }
     public void setModeRecieveApk (final Uri apkUri) {
         setContentView(R.layout.recieve_apk);
