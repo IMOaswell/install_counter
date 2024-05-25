@@ -16,8 +16,10 @@ public class BarGraphView
 {
     static final int BAR_SPACING = 25;
     static ViewGroup create (final Context mContext) {
-
         final LinearLayout layout = new LinearLayout(mContext);
+        layout.setLayoutParams(new LinearLayout.LayoutParams(
+                                       LinearLayout.LayoutParams.MATCH_PARENT, 
+                                       LinearLayout.LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
