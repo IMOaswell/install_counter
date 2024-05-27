@@ -44,11 +44,14 @@ public class StatsWriter
     }
 
     private static void addGitChanges (Context mContext, File stats_log, boolean isAmmend) {
-        //TODO: fix bug when a new file is added and it doesnt see insetions
         //will add e.g files:3 +27 -6
         String script = "cd \'" + StatsReader.getMainDirPath(stats_log) + "\' \n";
 
         String addChanges = "input=$(git diff --shortstat) \n";
+        addChanges += "untracked_files=$(git ls-files --others --exclude-standard) \n";
+        addChanges += "if [ -z \"$input\" ]; then \n";
+        addChanges += "input=\"$(echo \"$untracked_files\" | wc -l) files\" \n";
+        addChanges += "fi \n";
         addChanges += "files=$(echo $input | sed -n -E 's/^([0-9]+) file.*/files:\\1/p') \n";
         addChanges += "insertions=$(echo $input | sed -n -E 's/.* ([0-9]+) insertion.*/+\\1/p') \n";
         addChanges += "deletions=$(echo $input | sed -n -E 's/.* ([0-9]+) deletion.*/-\\1/p') \n";
