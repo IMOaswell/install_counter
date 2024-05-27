@@ -35,14 +35,13 @@ public class MainActivity extends Activity
     }
 
     public void setModeInsights () {
-        //setContentView(R.layout.insights);
-        final LinearLayout testLayout = new LinearLayout(mContext);
-        setContentView(testLayout);
-
-        testLayout.post(new Runnable(){
+        setContentView(R.layout.insights);
+        final LinearLayout baseLayout = findViewById(R.id.base);
+        
+        baseLayout.post(new Runnable(){
                 @Override
                 public void run () {
-                    testLayout.addView(BarGraphView.create(mContext));
+                    baseLayout.addView(BarGraphView.create(mContext));
                 }
             });                  
     }
