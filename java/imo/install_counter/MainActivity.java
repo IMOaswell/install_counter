@@ -39,18 +39,18 @@ public class MainActivity extends Activity
         setContentView(R.layout.insights);
         final LinearLayout baseLayout = findViewById(R.id.base);
         final TextView textview = findViewById(R.id.text);
-        
+
         baseLayout.post(new Runnable(){
                 @Override
                 public void run () {
                     baseLayout.addView(BarGraphView.create(mContext));
                 }
             });      
-        
+
         Map projectPkgNamesAndDirs = ProjectFinder.getActiveProjects(mContext);
         StringBuilder sb = new StringBuilder();
         sb.append("Active Projects: \n");
-        for(Map.Entry<String, String> entry : projectPkgNamesAndDirs.entrySet()){
+        for (Map.Entry<String, String> entry : projectPkgNamesAndDirs.entrySet()) {
             sb.append("\n" + entry.getKey().toUpperCase() + " " + entry.getValue());
         }
         textview.setText(sb.toString().trim());

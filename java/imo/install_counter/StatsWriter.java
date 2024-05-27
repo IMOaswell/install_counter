@@ -13,7 +13,7 @@ public class StatsWriter
     static void recordStat (Context mContext, File stats_log, int index) {
         recordStat(mContext, stats_log, index, false);
     }
-    
+
     static void recordStat (Context mContext, File stats_log, int index, boolean isAmmend) {
         //will record e.g 44 2024-MAY-19 01:39pm files:3 +27 -6
         String recordString = index + " " + getCurrentDate() + " " + getCurrentTime() + " ";
@@ -21,7 +21,7 @@ public class StatsWriter
         write(stats_log, previousContent + "\n" + recordString);
         addGitChanges(mContext, stats_log, isAmmend);
     }
-    
+
     private static String getCurrentDate () {
         //will return e.g 2024-MAY-19
         Calendar calendar = Calendar.getInstance();
@@ -31,7 +31,7 @@ public class StatsWriter
         final String DATE = year + "-" + monthString + "-" + day;
         return DATE;
     }
-    
+
     private static String getCurrentTime () {
         //will return e.g 01:39pm
         Calendar calendar = Calendar.getInstance();
@@ -81,17 +81,17 @@ public class StatsWriter
         ammend += "read userInput \n";
         ammend += "git add . \n";
         ammend += "git commit --amend --no-edit \n";
-        
+
         script += addChanges + "\n";
         script += isAmmend ? ammend : commit;
         TermuxTools.runScript(mContext, script);
     }
-    
-    static void optimizeStatsLog(File stats_log){
+
+    static void optimizeStatsLog (File stats_log) {
         collapseDates(stats_log);
     }
-    
-    static void collapseDates(File stats_log){
+
+    static void collapseDates (File stats_log) {
         String[] logs = StatsReader.read(stats_log).split("\n");
         HashSet<String> dateSet = new HashSet<>();
         String[] outputs = new String[logs.length];
@@ -99,7 +99,7 @@ public class StatsWriter
         for (int i = 0; i < logs.length; i++) {
             Stat stat = new Stat(logs[i]);
             String date = stat.DATE;
-            
+
             if (dateSet.contains(date)) {
                 outputs[i] = logs[i].replace(date, "*");
             } else {
@@ -108,10 +108,10 @@ public class StatsWriter
             }
         }
         String newContent = "";
-        for(String output : outputs){
+        for (String output : outputs) {
             newContent += output + "\n";
         }
-        
+
         write(stats_log, newContent);
     }
 

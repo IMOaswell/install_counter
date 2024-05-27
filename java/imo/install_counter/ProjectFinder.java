@@ -60,8 +60,8 @@ public class ProjectFinder
         }
         return null;
     }
-    
-    static Map getActiveProjects(Context mContext){
+
+    static Map getActiveProjects (Context mContext) {
         SharedPreferences sp = mContext.getSharedPreferences(SHARED_PREFS_KEY, mContext.MODE_PRIVATE);
         Map projectPkgNameAndFolder = sp.getAll();
         return projectPkgNameAndFolder;

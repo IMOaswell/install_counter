@@ -6,12 +6,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.view.Gravity;
 
 public class BarGraphView
 {
@@ -19,8 +19,8 @@ public class BarGraphView
     static ViewGroup create (final Context mContext) {
         final LinearLayout layout = new LinearLayout(mContext);
         layout.setLayoutParams(new LinearLayout.LayoutParams(
-                                       LinearLayout.LayoutParams.MATCH_PARENT, 
-                                       LinearLayout.LayoutParams.WRAP_CONTENT));
+                                   LinearLayout.LayoutParams.MATCH_PARENT, 
+                                   LinearLayout.LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -38,7 +38,7 @@ public class BarGraphView
         return layout;
     }
 
-    static BitmapDrawable drawCanvas(View view, int width, int height, int padding){
+    static BitmapDrawable drawCanvas (View view, int width, int height, int padding) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();
@@ -54,7 +54,7 @@ public class BarGraphView
         return new BitmapDrawable(view.getResources(), bitmap);
     }
 
-    static TextView createBar(Context mContext, String text){
+    static TextView createBar (Context mContext, String text) {
         final TextView textview = new TextView(mContext);
         textview.setText(text);
         textview.setBackgroundColor(Color.BLACK);

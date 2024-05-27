@@ -19,6 +19,7 @@ public class Stat
         DATE = parts[1];
         TIME = parts[2];
         if (parts.length < 6) return;
+        if (parts.length > 6) return;
         FILES_CHANGED = Integer.parseInt(parts[3].replace("files:", ""));
         INSERTS = Integer.parseInt(parts[4].replace("+", ""));
         DELETES = Integer.parseInt(parts[5].replace("-", ""));
