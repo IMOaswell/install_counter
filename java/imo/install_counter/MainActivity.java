@@ -59,7 +59,7 @@ public class MainActivity extends Activity
         setContentView(R.layout.recieve_apk);
 
         String apkPackageName = ProjectFinder.getApkPackageName(mContext, apkUri);
-        String foundProjectDirPath = ProjectFinder.findProjectDirByPackageName(mContext, apkPackageName);
+        String foundProjectDirPath = ProjectFinder.findProjectDir(mContext, apkPackageName);
         if (foundProjectDirPath == null) return;
         final File stats_log = new File(foundProjectDirPath,  "stats.log");
         final int currentStatIndex = StatsReader.getLastStat(mContext, stats_log).INDEX;

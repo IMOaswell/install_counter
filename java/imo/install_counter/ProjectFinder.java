@@ -25,7 +25,7 @@ public class ProjectFinder
         return packageInfo.packageName;
     }
 
-    static String findProjectDirByPackageName (Context mContext, String packageName) {
+    static String findProjectDir (Context mContext, String packageName) {
         String packageNameAsDir = packageName.replace(".", "/");
         SharedPreferences sp = mContext.getSharedPreferences(SHARED_PREFS_KEY, mContext.MODE_PRIVATE);
         final String KEY = packageNameAsDir;
@@ -34,12 +34,12 @@ public class ProjectFinder
             final String VALUE = sp.getString(KEY, "");
             if (new File(VALUE).exists()) return VALUE;
         }
-        String projectDir = findProjectDirByPackageName(packageNameAsDir, AIDE_PROJECTS_DIR);
+        String projectDir = findProjectDirRecursively(packageNameAsDir, AIDE_PROJECTS_DIR);
         if (projectDir != null) sp.edit().putString(KEY, projectDir).apply();
         return projectDir;
     }
 
-    private static String findProjectDirByPackageName (String packageNameAsDir, String path) {
+    private static String findProjectDirRecursively (String packageNameAsDir, String path) {
         File folder = new File(path);
         File[] files = folder.listFiles();
 
@@ -53,7 +53,7 @@ public class ProjectFinder
                     return dir;
                 } else {
                     if (new File(dir + "/app/src/main/java/").exists()) continue;
-                    String result = findProjectDirByPackageName(packageNameAsDir, file.getAbsolutePath());
+                    String result = findProjectDirRecursively(packageNameAsDir, file.getAbsolutePath());
                     if (result != null) return result;
                 }
             }
