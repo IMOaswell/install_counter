@@ -6,10 +6,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import java.io.File;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.view.ViewGroup;
+import android.widget.TextView;
+import java.io.File;
+import java.util.Map;
 
 public class MainActivity extends Activity 
 {
@@ -37,13 +38,22 @@ public class MainActivity extends Activity
     public void setModeInsights () {
         setContentView(R.layout.insights);
         final LinearLayout baseLayout = findViewById(R.id.base);
+        final TextView textview = findViewById(R.id.text);
         
         baseLayout.post(new Runnable(){
                 @Override
                 public void run () {
                     baseLayout.addView(BarGraphView.create(mContext));
                 }
-            });                  
+            });      
+        
+        Map projectPkgNamesAndDirs = ProjectFinder.getActiveProjects(mContext);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Active Projects: \n");
+        for(Map.Entry<String, String> entry : projectPkgNamesAndDirs.entrySet()){
+            sb.append("\n" + entry.getKey().toUpperCase() + " " + entry.getValue());
+        }
+        textview.setText(sb.toString().trim());
     }
     public void setModeRecieveApk (final Uri apkUri) {
         setContentView(R.layout.recieve_apk);

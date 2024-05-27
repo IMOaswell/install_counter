@@ -10,11 +10,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Map;
 
 public class ProjectFinder
 {
     final static String INTERNAL_STORAGE = Environment.getExternalStorageDirectory().getPath();
     final static String AIDE_PROJECTS_DIR =  INTERNAL_STORAGE + "/AppProjects/";
+    final static String SHARED_PREFS_KEY = "banana";
 
     static String getApkPackageName (Context mContext, Uri apkUri) {
         String filePath = getFilePathFromUri(mContext, apkUri);
@@ -25,7 +27,7 @@ public class ProjectFinder
 
     static String findProjectDirByPackageName (Context mContext, String packageName) {
         String packageNameAsDir = packageName.replace(".", "/");
-        SharedPreferences sp = mContext.getSharedPreferences("InstallCounter", mContext.MODE_PRIVATE);
+        SharedPreferences sp = mContext.getSharedPreferences(SHARED_PREFS_KEY, mContext.MODE_PRIVATE);
         final String KEY = packageNameAsDir;
 
         if (sp.contains(KEY)) {
@@ -57,6 +59,12 @@ public class ProjectFinder
             }
         }
         return null;
+    }
+    
+    static Map getActiveProjects(Context mContext){
+        SharedPreferences sp = mContext.getSharedPreferences(SHARED_PREFS_KEY, mContext.MODE_PRIVATE);
+        Map projectPkgNameAndFolder = sp.getAll();
+        return projectPkgNameAndFolder;
     }
 
 
