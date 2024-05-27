@@ -49,7 +49,9 @@ public class MainActivity extends Activity
 
         StringBuilder sb = new StringBuilder();
         sb.append("Active Projects: \n");
-        sb.append(StatsAnalytics.getActiveProjects(mContext));
+        sb.append(StatsAnalytics.getActiveProjects(mContext).trim());
+        sb.append("\nLast Active Since: \n");
+        sb.append(StatsAnalytics.getLastActiveTime(mContext));
         textview.setText(sb.toString().trim());
     }
     public void setModeRecieveApk (final Uri apkUri) {
