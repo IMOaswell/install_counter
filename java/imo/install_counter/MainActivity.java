@@ -47,12 +47,9 @@ public class MainActivity extends Activity
                 }
             });      
 
-        Map projectPkgNamesAndDirs = ProjectFinder.getActiveProjects(mContext);
         StringBuilder sb = new StringBuilder();
         sb.append("Active Projects: \n");
-        for (Map.Entry<String, String> entry : projectPkgNamesAndDirs.entrySet()) {
-            sb.append("\n" + entry.getKey().toUpperCase() + " " + entry.getValue());
-        }
+        sb.append(StatsAnalytics.getActiveProjects(mContext));
         textview.setText(sb.toString().trim());
     }
     public void setModeRecieveApk (final Uri apkUri) {
