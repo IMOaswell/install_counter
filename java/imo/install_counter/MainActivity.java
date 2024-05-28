@@ -48,10 +48,10 @@ public class MainActivity extends Activity
             });      
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Active Projects: \n");
-        sb.append(StatsAnalytics.getActiveProjects(mContext).trim());
-        sb.append("\nLast Active Since: \n");
-        sb.append(StatsAnalytics.getLastActiveTime(mContext));
+        sb.append("Recorded Projects: \n");
+        sb.append(StatsAnalytics.recordedProjects(mContext).trim());
+        sb.append("\nTime Since Last Log: \n");
+        sb.append(StatsAnalytics.timeSinceLastLog(mContext));
         textview.setText(sb.toString().trim());
     }
     public void setModeRecieveApk (final Uri apkUri) {

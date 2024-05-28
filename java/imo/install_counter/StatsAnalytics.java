@@ -10,7 +10,7 @@ import java.text.ParseException;
 public class StatsAnalytics
  {
     static Map pkgNamesAndDirs = null;
-    static String getActiveProjects(Context mContext){
+    static String recordedProjects(Context mContext){
         StringBuilder sb = new StringBuilder();
         if(pkgNamesAndDirs == null) 
             pkgNamesAndDirs = ProjectFinder.getActiveProjects(mContext);
@@ -20,7 +20,7 @@ public class StatsAnalytics
         return sb.toString();
     }
     
-    static String getLastActiveTime(Context mContext){
+    static String timeSinceLastLog(Context mContext){
         StringBuilder sb = new StringBuilder(); 
         if(pkgNamesAndDirs == null) 
             pkgNamesAndDirs = ProjectFinder.getActiveProjects(mContext);
