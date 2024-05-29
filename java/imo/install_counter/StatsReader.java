@@ -29,13 +29,18 @@ public class StatsReader
         List<Stat> Stats = getStats(mContext, stats_log);
         Stat lastStat = Stats.get(Stats.size() - 1);
         if (lastStat.DATE.equals("*")) {
-            for (int i = Stats.indexOf(lastStat); i >= 0; i--) {
-                String dateAtPosition = Stats.get(i).DATE;
-                if (!(dateAtPosition.equals("*"))) 
-                    lastStat.DATE = dateAtPosition;
-            }
+            lastStat = getStatWithDate(lastStat, Stats);
         }
         return lastStat;
+    }
+    
+    static Stat getStatWithDate(Stat stat, List<Stat> Stats){
+        for (int i = Stats.indexOf(stat); i >= 0; i--) {
+            String dateAtPosition = Stats.get(i).DATE;
+            if (!(dateAtPosition.equals("*"))) 
+                stat.DATE = dateAtPosition;
+        }
+        return stat;
     }
     
     static Date getDate(Stat stat){
