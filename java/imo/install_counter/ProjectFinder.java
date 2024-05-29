@@ -28,7 +28,7 @@ public class ProjectFinder
     static String findProjectDir (Context mContext, String packageName) {
         String packageNameAsDir = packageName.replace(".", "/");
         SharedPreferences sp = mContext.getSharedPreferences(SHARED_PREFS_KEY, mContext.MODE_PRIVATE);
-        final String KEY = packageNameAsDir;
+        final String KEY = packageName;
 
         if (sp.contains(KEY)) {
             final String VALUE = sp.getString(KEY, "");

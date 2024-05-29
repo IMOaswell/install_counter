@@ -17,7 +17,7 @@ public class StatsAnalytics
         if(pkgNamesAndDirs == null) 
             pkgNamesAndDirs = ProjectFinder.getActiveProjects(mContext);
         for (Map.Entry<String, String> entry : pkgNamesAndDirs.entrySet()) {
-            sb.append("\n" + entry.getKey().replace("/", "."));
+            sb.append("\n" + entry.getKey());
         }
         return sb.toString();
     }

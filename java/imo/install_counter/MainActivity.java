@@ -10,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.io.File;
-import java.util.Map;
 
 public class MainActivity extends Activity 
 {
@@ -39,13 +38,13 @@ public class MainActivity extends Activity
         setContentView(R.layout.insights);
         final LinearLayout baseLayout = findViewById(R.id.base);
         final TextView textview = findViewById(R.id.text);
-
+        
         baseLayout.post(new Runnable(){
                 @Override
                 public void run () {
                     baseLayout.addView(BarGraphView.create(mContext));
                 }
-            });      
+            });
 
         StringBuilder sb = new StringBuilder();
         sb.append("Recorded Projects: \n");
