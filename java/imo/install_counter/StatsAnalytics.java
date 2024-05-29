@@ -2,20 +2,25 @@ package imo.install_counter;
 
 import android.content.Context;
 import android.icu.text.SimpleDateFormat;
-import android.view.View;
 import java.io.File;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 public class StatsAnalytics
  {
     static Map pkgNamesAndDirs = null;
-    
-    static String recordedProjects(Context mContext){
-        StringBuilder sb = new StringBuilder();
+    static Map setPkgNameAndDirsMap(Context mContext){
         if(pkgNamesAndDirs == null) 
             pkgNamesAndDirs = ProjectFinder.getActiveProjects(mContext);
+        return pkgNamesAndDirs;
+    }
+    
+    static String recordedProjects(Context mContext){
+        setPkgNameAndDirsMap(mContext);
+        StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, String> entry : pkgNamesAndDirs.entrySet()) {
             sb.append("\n" + entry.getKey());
         }
@@ -23,10 +28,8 @@ public class StatsAnalytics
     }
     
     static String timeSinceLastLog(Context mContext){
+        setPkgNameAndDirsMap(mContext);
         StringBuilder sb = new StringBuilder(); 
-        if(pkgNamesAndDirs == null) 
-            pkgNamesAndDirs = ProjectFinder.getActiveProjects(mContext);
-        
         for (Map.Entry<String, String> entry : pkgNamesAndDirs.entrySet()) {
             String projectDirPath = entry.getValue();
             File stats_log = new File(projectDirPath,  "stats.log");
