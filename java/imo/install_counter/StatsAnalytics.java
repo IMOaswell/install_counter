@@ -2,14 +2,16 @@ package imo.install_counter;
 
 import android.content.Context;
 import android.icu.text.SimpleDateFormat;
+import android.view.View;
 import java.io.File;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
-import java.text.ParseException;
 
 public class StatsAnalytics
  {
     static Map pkgNamesAndDirs = null;
+    
     static String recordedProjects(Context mContext){
         StringBuilder sb = new StringBuilder();
         if(pkgNamesAndDirs == null) 
