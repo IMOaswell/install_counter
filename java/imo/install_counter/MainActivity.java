@@ -43,7 +43,6 @@ public class MainActivity extends Activity
     public void setModeInsights () {
         setContentView(R.layout.insights);
         final LinearLayout baseLayout = findViewById(R.id.base);
-        final TextView textview = findViewById(R.id.text);
         final Spinner spinner = findViewById(R.id.spinner);
         final TextView directoryTxt = findViewById(R.id.directory_txt);
         final TextView timeTxt = findViewById(R.id.time_txt);
