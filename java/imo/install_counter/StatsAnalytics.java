@@ -38,10 +38,10 @@ public class StatsAnalytics
             long hours = minutes / 60;
             long days = hours / 24;
 
-            if(days > 0) sb.append(days + " D ");
-            if(hours > 0) sb.append((hours % 24) + " H ");
-            if(minutes > 0) sb.append((minutes % 60) + " Min ");
-            if(seconds > 0) sb.append((seconds % 60) + " Sec ago");
+            if(days > 0) sb.append(days + "d ");
+            if(hours > 0) sb.append((hours % 24) + "h ");
+            if(minutes > 0) sb.append((minutes % 60) + "m ");
+            if(seconds > 0) sb.append((seconds % 60) + "s ago");
             return sb.toString();
         } catch (ParseException e) {
             System.out.println(e);
