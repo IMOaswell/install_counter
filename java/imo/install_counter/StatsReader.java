@@ -24,7 +24,15 @@ public class StatsReader
 
     static Stat getLastStat (Context mContext, File stats_log) {
         List<Stat> Stats = getStats(mContext, stats_log);
-        return Stats.get(Stats.size() - 1);
+        Stat lastStat = Stats.get(Stats.size() - 1);
+        if(lastStat.DATE.equals("*")){
+            for (int i = Stats.indexOf(lastStat); i >= 0; i--) {
+                String dateAtPosition = Stats.get(i).DATE;
+                if(!(dateAtPosition.equals("*"))) 
+                    lastStat.DATE = dateAtPosition;
+            }
+        }
+        return lastStat;
     }
 
     static String getMainDirPath (File stats_log) {
