@@ -52,15 +52,17 @@ public class MainActivity extends Activity
                     baseLayout.addView(BarGraphView.create(mContext));
                 }
             });
+        List<String> packageNames = StatsAnalytics.getPackageNames(mContext);
         
         StringBuilder sb = new StringBuilder();
         sb.append("Recorded Projects: \n");
-        sb.append(StatsAnalytics.recordedProjects(mContext).trim());
+        for(String packageName : packageNames){
+            sb.append(packageName + "\n");
+        }
         sb.append("\nTime Since Last Log: \n");
         sb.append(StatsAnalytics.timeSinceLastLog(mContext));
         textview.setText(sb.toString().trim());
         
-        List<String> packageNames = StatsAnalytics.getPackageNames(mContext);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, packageNames);
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

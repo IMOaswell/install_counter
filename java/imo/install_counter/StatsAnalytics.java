@@ -18,15 +18,6 @@ public class StatsAnalytics
         return pkgNamesAndDirs;
     }
     
-    static String recordedProjects(Context mContext){
-        setPkgNameAndDirsMap(mContext);
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, String> entry : pkgNamesAndDirs.entrySet()) {
-            sb.append("\n" + entry.getKey());
-        }
-        return sb.toString();
-    }
-    
     static String timeSinceLastLog(Context mContext){
         setPkgNameAndDirsMap(mContext);
         StringBuilder sb = new StringBuilder(); 
