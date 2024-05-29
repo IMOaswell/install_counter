@@ -21,7 +21,7 @@ public class StatsAnalytics
     static String timeSinceLastLog(Context mContext, String packageName){
         setPkgNameAndDirsMap(mContext);
         StringBuilder sb = new StringBuilder();
-        String projectDirPath = (String) pkgNamesAndDirs.get(packageName);
+        String projectDirPath = getProjectDirPath(mContext, packageName);
         File stats_log = new File(projectDirPath,  "stats.log");
         if(!stats_log.exists()) return null;
         Stat stat = StatsReader.getLastStat(mContext, stats_log);
@@ -56,5 +56,9 @@ public class StatsAnalytics
             packageNames.add(entry.getKey());
         }
         return packageNames;
+    }
+    
+    static String getProjectDirPath(Context mContext, String packageName){
+        return (String) pkgNamesAndDirs.get(packageName);
     }
 }

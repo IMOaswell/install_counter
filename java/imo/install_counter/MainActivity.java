@@ -63,7 +63,8 @@ public class MainActivity extends Activity
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String packageName = (String) parent.getItemAtPosition(position);
                     StringBuilder sb = new StringBuilder();
-                    sb.append(packageName);
+                    sb.append(packageName + "\n");
+                    sb.append(StatsAnalytics.getProjectDirPath(mContext, packageName));
                     sb.append("\nTime Since Last Log: \n");
                     sb.append(StatsAnalytics.timeSinceLastLog(mContext, packageName));
                     textview.setText(sb.toString().trim());
