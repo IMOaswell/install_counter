@@ -2,6 +2,7 @@ package imo.install_counter;
 
 import android.content.Context;
 import android.icu.text.SimpleDateFormat;
+import android.view.View;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -66,5 +67,17 @@ public class StatsAnalytics
 
     static File getStatsLog (Context mContext, String packageName) {
         return new File(getProjectDirPath(mContext, packageName),  "stats.log");
+    }
+    
+    static class GraphMaker {
+        static View last24hours(Context mContext){
+            return BarGraphView.create(mContext);
+        }
+        static View last7days(Context mContext){
+            return BarGraphView.create(mContext);
+        }
+        static View last30days(Context mContext){
+            return BarGraphView.create(mContext);
+        }
     }
 }

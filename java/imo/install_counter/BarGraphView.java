@@ -15,12 +15,11 @@ import android.widget.TextView;
 
 public class BarGraphView
 {
-    static final int BAR_SPACING = 25;
     static ViewGroup create (final Context mContext) {
         final LinearLayout layout = new LinearLayout(mContext);
         layout.setLayoutParams(new LinearLayout.LayoutParams(
                                    LinearLayout.LayoutParams.MATCH_PARENT, 
-                                   LinearLayout.LayoutParams.WRAP_CONTENT));
+                                   200));
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -28,13 +27,10 @@ public class BarGraphView
                     layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
                     int padding = (int) layout.getWidth() / 60;
-                    layout.setPadding(padding, padding, padding, padding + BAR_SPACING);
+                    layout.setPadding(padding, padding, padding, padding);
                     layout.setBackground(drawCanvas(layout, layout.getWidth(), layout.getHeight(), padding));
                 }
             });
-
-        layout.addView(createBar(mContext, "hello"));
-        layout.addView(createBar(mContext, "world"));
         return layout;
     }
 
@@ -51,29 +47,5 @@ public class BarGraphView
         float[] line2 = {padding, canvasHeight - padding, canvasWidth - padding, canvasHeight - padding};
         canvas.drawLine(line2[0], line2[1], line2[2], line2[3], paint);
         return new BitmapDrawable(view.getResources(), bitmap);
-    }
-
-    static TextView createBar (Context mContext, String text) {
-        final TextView textview = new TextView(mContext);
-        textview.setText(text);
-        textview.setBackgroundColor(Color.BLACK);
-        textview.setTextColor(Color.WHITE);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT, 
-            LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(0, BAR_SPACING, 0, 0);
-        textview.setLayoutParams(layoutParams);
-        textview.setLines(2);
-        textview.setGravity(Gravity.CENTER_VERTICAL);
-        textview.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout () {
-                    textview.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
-                    int padding = (int) textview.getHeight() / 6;
-                    textview.setPadding(padding, padding, padding, padding);
-                }
-            });
-        return textview;
     }
 }

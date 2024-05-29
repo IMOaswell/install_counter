@@ -41,15 +41,17 @@ public class MainActivity extends Activity
 
     public void setModeInsights () {
         setContentView(R.layout.insights);
-        final LinearLayout baseLayout = findViewById(R.id.base);
         final Spinner spinner = findViewById(R.id.spinner);
         final TextView directoryTxt = findViewById(R.id.directory_txt);
         final TextView timeTxt = findViewById(R.id.time_txt);
+        final LinearLayout baseLayout = findViewById(R.id.base);
 
         baseLayout.post(new Runnable(){
                 @Override
                 public void run () {
-                    baseLayout.addView(BarGraphView.create(mContext));
+                    baseLayout.addView(StatsAnalytics.GraphMaker.last24hours(mContext));
+                    baseLayout.addView(StatsAnalytics.GraphMaker.last7days(mContext));
+                    baseLayout.addView(StatsAnalytics.GraphMaker.last30days(mContext));
                 }
             });
 
