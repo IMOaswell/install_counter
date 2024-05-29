@@ -12,7 +12,6 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import imo.install_counter.MainActivity;
 import java.io.File;
 import java.util.List;
@@ -46,28 +45,28 @@ public class MainActivity extends Activity
         final Spinner spinner = findViewById(R.id.spinner);
         final TextView directoryTxt = findViewById(R.id.directory_txt);
         final TextView timeTxt = findViewById(R.id.time_txt);
-        
+
         baseLayout.post(new Runnable(){
                 @Override
                 public void run () {
                     baseLayout.addView(BarGraphView.create(mContext));
                 }
             });
-        
+
         List<String> packageNames = StatsAnalytics.getPackageNames(mContext);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, packageNames);
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void onNothingSelected(AdapterView<?> parent) {}
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    String packageName = (String) parent.getItemAtPosition(position);
-                    
+                public void onNothingSelected (AdapterView<?> parent) {}
+                @Override                     
+                public void onItemSelected (AdapterView<?> parent, View view, int position, long id) {
+                    String packageName = ( String) parent.getItemAtPosition(position);
+
                     directoryTxt.setText("Project's Folder: \n" +
-                    StatsAnalytics.getProjectDirPath(mContext, packageName));
+                                         StatsAnalytics.getProjectDirPath(mContext, packageName));
                     timeTxt.setText("Time Since Last Log: \n" +
-                    StatsAnalytics.timeSinceLastLog(mContext, packageName));
+                                    StatsAnalytics.timeSinceLastLog(mContext, packageName));
                 }
             });
     }

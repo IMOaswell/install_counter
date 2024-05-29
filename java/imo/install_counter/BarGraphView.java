@@ -47,7 +47,7 @@ public class BarGraphView
 
         int canvasHeight = canvas.getHeight();
         int canvasWidth = canvas.getWidth();
-        
+
         float[] line2 = {padding, canvasHeight - padding, canvasWidth - padding, canvasHeight - padding};
         canvas.drawLine(line2[0], line2[1], line2[2], line2[3], paint);
         return new BitmapDrawable(view.getResources(), bitmap);

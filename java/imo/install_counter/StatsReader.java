@@ -25,10 +25,10 @@ public class StatsReader
     static Stat getLastStat (Context mContext, File stats_log) {
         List<Stat> Stats = getStats(mContext, stats_log);
         Stat lastStat = Stats.get(Stats.size() - 1);
-        if(lastStat.DATE.equals("*")){
+        if (lastStat.DATE.equals("*")) {
             for (int i = Stats.indexOf(lastStat); i >= 0; i--) {
                 String dateAtPosition = Stats.get(i).DATE;
-                if(!(dateAtPosition.equals("*"))) 
+                if (!(dateAtPosition.equals("*"))) 
                     lastStat.DATE = dateAtPosition;
             }
         }
