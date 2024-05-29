@@ -5,11 +5,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+import imo.install_counter.MainActivity;
 import java.io.File;
+import java.util.List;
 
 public class MainActivity extends Activity 
 {
@@ -38,6 +44,7 @@ public class MainActivity extends Activity
         setContentView(R.layout.insights);
         final LinearLayout baseLayout = findViewById(R.id.base);
         final TextView textview = findViewById(R.id.text);
+        final Spinner spinner = findViewById(R.id.spinner);
         
         baseLayout.post(new Runnable(){
                 @Override
@@ -45,13 +52,26 @@ public class MainActivity extends Activity
                     baseLayout.addView(BarGraphView.create(mContext));
                 }
             });
-
+        
         StringBuilder sb = new StringBuilder();
         sb.append("Recorded Projects: \n");
         sb.append(StatsAnalytics.recordedProjects(mContext).trim());
         sb.append("\nTime Since Last Log: \n");
         sb.append(StatsAnalytics.timeSinceLastLog(mContext));
         textview.setText(sb.toString().trim());
+        
+        List<String> packageNames = StatsAnalytics.getPackageNames(mContext);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, packageNames);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {}
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedItem = (String) parent.getItemAtPosition(position);
+                    Toast.makeText(MainActivity.this, "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
+                }
+            });
     }
     public void setModeRecieveApk (final Uri apkUri) {
         setContentView(R.layout.recieve_apk);

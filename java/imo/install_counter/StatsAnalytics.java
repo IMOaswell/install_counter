@@ -60,4 +60,13 @@ public class StatsAnalytics
         }
         return "--";
     }
+    
+    static List<String> getPackageNames(Context mContext){
+        setPkgNameAndDirsMap(mContext);
+        List<String> packageNames = new ArrayList<>();
+        for (Map.Entry<String, String> entry : pkgNamesAndDirs.entrySet()) {
+            packageNames.add(entry.getKey());
+        }
+        return packageNames;
+    }
 }
