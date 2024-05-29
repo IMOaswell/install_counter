@@ -10,18 +10,14 @@ import java.util.List;
 
 public class StatsReader
 {
-    private static List<Stat> STATS = null;
-
     static List<Stat> getStats (Context mContext, File stats_log) {
         if (!stats_log.exists()) {
             StatsWriter.recordStat(mContext, stats_log, 0);
         }
-        if (STATS == null) {
-            STATS = new ArrayList<>();
-            String[] logs = read(stats_log).split("\n");
-            for (String log : logs) {
-                STATS.add(new Stat(log));
-            }
+        List<Stat> STATS = new ArrayList<>();
+        String[] logs = read(stats_log).split("\n");
+        for (String log : logs) {
+            STATS.add(new Stat(log));
         }
         return STATS;
     }
