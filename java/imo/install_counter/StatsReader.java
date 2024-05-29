@@ -1,11 +1,14 @@
 package imo.install_counter;
 
 import android.content.Context;
+import android.icu.text.SimpleDateFormat;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class StatsReader
@@ -33,6 +36,17 @@ public class StatsReader
             }
         }
         return lastStat;
+    }
+    
+    static Date getDate(Stat stat){
+        String dateAndTimeString = stat.DATE + " " + stat.TIME;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MMM-dd hh:mma");
+        try {
+            return format.parse(dateAndTimeString);
+            } catch (ParseException e) {
+                System.out.println(e);
+            }
+        return null;
     }
 
     static String getMainDirPath (File stats_log) {

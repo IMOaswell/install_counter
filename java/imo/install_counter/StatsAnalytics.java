@@ -1,10 +1,8 @@
 package imo.install_counter;
 
 import android.content.Context;
-import android.icu.text.SimpleDateFormat;
 import android.view.View;
 import java.io.File;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,30 +23,21 @@ public class StatsAnalytics
 
         File stats_log = getStatsLog(mContext, packageName);
         if (!stats_log.exists()) return null;
-        Stat stat = StatsReader.getLastStat(mContext, stats_log);
+        Date date = StatsReader.getDate(StatsReader.getLastStat(mContext, stats_log));
+        Date currentDate = new Date();
 
-        String dateAndTimeString = stat.DATE + " " + stat.TIME;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MMM-dd hh:mma");
-        try {
-            Date date = format.parse(dateAndTimeString);
-            Date currentDate = new Date();
+        long timeDifferenceMillis = Math.abs(currentDate.getTime() - date.getTime());
 
-            long timeDifferenceMillis = Math.abs(currentDate.getTime() - date.getTime());
+        long seconds = timeDifferenceMillis / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        long days = hours / 24;
 
-            long seconds = timeDifferenceMillis / 1000;
-            long minutes = seconds / 60;
-            long hours = minutes / 60;
-            long days = hours / 24;
-
-            if (days > 0) sb.append(days + "d ");
-            if (hours > 0) sb.append((hours % 24) + "h ");
-            if (minutes > 0) sb.append((minutes % 60) + "m ");
-            if (seconds > 0) sb.append((seconds % 60) + "s ago");
-            return sb.toString();
-        } catch (ParseException e) {
-            System.out.println(e);
-        }
-        return "--";
+        if (days > 0) sb.append(days + "d ");
+        if (hours > 0) sb.append((hours % 24) + "h ");
+        if (minutes > 0) sb.append((minutes % 60) + "m ");
+        if (seconds > 0) sb.append((seconds % 60) + "s ago");
+        return sb.toString();
     }
 
     static List<String> getPackageNames (Context mContext) {
@@ -68,7 +57,7 @@ public class StatsAnalytics
     static File getStatsLog (Context mContext, String packageName) {
         return new File(getProjectDirPath(mContext, packageName),  "stats.log");
     }
-    
+
     static class GraphMaker {
 //        static View last24hours(Context mContext){
 //            return BarGraphView.create(mContext);
