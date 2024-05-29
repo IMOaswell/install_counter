@@ -72,6 +72,8 @@ public class MainActivity extends Activity
                                     StatsAnalytics.timeSinceLastLog(mContext, packageName));
                     baseLayout.removeAllViews();
                     baseLayout.addView(StatsAnalytics.GraphMaker.insertsAndDeletes(mContext, packageName));
+                    baseLayout.addView(StatsAnalytics.GraphMaker.deletes(mContext, packageName));
+                    baseLayout.addView(StatsAnalytics.GraphMaker.inserts(mContext, packageName));
                 }
             });
     }

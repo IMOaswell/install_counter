@@ -15,7 +15,10 @@ import java.util.List;
 
 public class BarGraphView
 {
-    static ViewGroup create (final Context mContext, final List<Integer> yValues) {
+    static ViewGroup create(final Context mContext, final List<Integer> yValues){
+        return create(mContext, yValues, Color.BLACK);
+    }
+    static ViewGroup create (final Context mContext, final List<Integer> yValues, final int linesColor) {
         final LinearLayout layout = new LinearLayout(mContext);
         layout.setLayoutParams(new LinearLayout.LayoutParams(
                                    LinearLayout.LayoutParams.MATCH_PARENT, 
@@ -25,23 +28,23 @@ public class BarGraphView
                 @Override
                 public void onGlobalLayout () {
                     layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    layout.setBackground(drawCanvas(layout, layout.getWidth(), layout.getHeight(), yValues));
+                    layout.setBackground(drawCanvas(layout, layout.getWidth(), layout.getHeight(), yValues, linesColor));
                 }
             });
         return layout;
     }
 
-    static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues) {
+    static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues, int linesColor) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        displayLines(canvas, yValues);
+        displayLines(canvas, yValues, linesColor);
         return new BitmapDrawable(view.getResources(), bitmap);
     }
     
-    static void displayLines(Canvas canvas, List<Integer> yValues){
+    static void displayLines(Canvas canvas, List<Integer> yValues, int linesColor){
         int canvasHeight = canvas.getHeight();
         Paint paint = new Paint();
-        paint.setColor(Color.DKGRAY);
+        paint.setColor(linesColor);
         paint.setStyle(Paint.Style.FILL);
         
         int lineSpacing = canvas.getWidth() / yValues.size();
