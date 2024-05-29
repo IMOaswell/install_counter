@@ -49,9 +49,10 @@ public class MainActivity extends Activity
         baseLayout.post(new Runnable(){
                 @Override
                 public void run () {
-                    baseLayout.addView(StatsAnalytics.GraphMaker.last24hours(mContext));
-                    baseLayout.addView(StatsAnalytics.GraphMaker.last7days(mContext));
-                    baseLayout.addView(StatsAnalytics.GraphMaker.last30days(mContext));
+//                    baseLayout.addView(StatsAnalytics.GraphMaker.last24hours(mContext));
+//                    baseLayout.addView(StatsAnalytics.GraphMaker.last7days(mContext));
+//                    baseLayout.addView(StatsAnalytics.GraphMaker.last30days(mContext));
+                    baseLayout.addView(StatsAnalytics.GraphMaker.test(mContext));
                 }
             });
 

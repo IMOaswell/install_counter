@@ -70,14 +70,21 @@ public class StatsAnalytics
     }
     
     static class GraphMaker {
-        static View last24hours(Context mContext){
-            return BarGraphView.create(mContext);
-        }
-        static View last7days(Context mContext){
-            return BarGraphView.create(mContext);
-        }
-        static View last30days(Context mContext){
-            return BarGraphView.create(mContext);
+//        static View last24hours(Context mContext){
+//            return BarGraphView.create(mContext);
+//        }
+//        static View last7days(Context mContext){
+//            return BarGraphView.create(mContext);
+//        }
+//        static View last30days(Context mContext){
+//            return BarGraphView.create(mContext);
+//        }
+        static View test(Context mContext){
+            List<Integer> i = new ArrayList<>();
+            i.add(700);
+            i.add(50);
+            i.add(120);
+            return BarGraphView.create(mContext, i);
         }
     }
 }
