@@ -54,13 +54,6 @@ public class MainActivity extends Activity
             });
         List<String> packageNames = StatsAnalytics.getPackageNames(mContext);
         
-        StringBuilder sb = new StringBuilder();
-        sb.append("Recorded Projects: \n");
-        for(String packageName : packageNames){
-            sb.append(packageName + "\n");
-        }
-        textview.setText(sb.toString().trim());
-        
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, packageNames);
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -70,7 +63,7 @@ public class MainActivity extends Activity
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String packageName = (String) parent.getItemAtPosition(position);
                     StringBuilder sb = new StringBuilder();
-                    sb.append(textview.getText().toString());
+                    sb.append(packageName);
                     sb.append("\nTime Since Last Log: \n");
                     sb.append(StatsAnalytics.timeSinceLastLog(mContext, packageName));
                     textview.setText(sb.toString().trim());
