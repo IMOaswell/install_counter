@@ -59,6 +59,15 @@ public class StatsAnalytics
     }
 
     static class GraphMaker {
+        static View insertsAndDeletes (Context mContext, String packageName) {
+            List<Integer> graphData = new ArrayList<>();
+            File stats_log = getStatsLog(mContext, packageName);
+            List<Stat> stats = StatsReader.getStats(mContext, stats_log);
+            for(Stat stat : stats){
+                graphData.add(stat.INSERTS + stat.DELETES);
+            }
+            return BarGraphView.create(mContext, graphData);
+        }
 //        static View last24hours(Context mContext){
 //            return BarGraphView.create(mContext);
 //        }
@@ -68,7 +77,7 @@ public class StatsAnalytics
 //        static View last30days(Context mContext){
 //            return BarGraphView.create(mContext);
 //        }
-        static View test(Context mContext){
+        static View test (Context mContext) {
             List<Integer> i = new ArrayList<>();
             i.add(700);
             i.add(50);

@@ -52,7 +52,7 @@ public class MainActivity extends Activity
 //                    baseLayout.addView(StatsAnalytics.GraphMaker.last24hours(mContext));
 //                    baseLayout.addView(StatsAnalytics.GraphMaker.last7days(mContext));
 //                    baseLayout.addView(StatsAnalytics.GraphMaker.last30days(mContext));
-                    baseLayout.addView(StatsAnalytics.GraphMaker.test(mContext));
+//                    baseLayout.addView(StatsAnalytics.GraphMaker.test(mContext));
                 }
             });
 
@@ -70,6 +70,8 @@ public class MainActivity extends Activity
                                          StatsAnalytics.getProjectDirPath(mContext, packageName));
                     timeTxt.setText("Time Since Last Log: \n" +
                                     StatsAnalytics.timeSinceLastLog(mContext, packageName));
+                    baseLayout.removeAllViews();
+                    baseLayout.addView(StatsAnalytics.GraphMaker.insertsAndDeletes(mContext, packageName));
                 }
             });
     }
