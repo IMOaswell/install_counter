@@ -59,8 +59,6 @@ public class MainActivity extends Activity
         for(String packageName : packageNames){
             sb.append(packageName + "\n");
         }
-        sb.append("\nTime Since Last Log: \n");
-        sb.append(StatsAnalytics.timeSinceLastLog(mContext));
         textview.setText(sb.toString().trim());
         
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, packageNames);
@@ -70,8 +68,12 @@ public class MainActivity extends Activity
                 public void onNothingSelected(AdapterView<?> parent) {}
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    String selectedItem = (String) parent.getItemAtPosition(position);
-                    Toast.makeText(MainActivity.this, "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
+                    String packageName = (String) parent.getItemAtPosition(position);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(textview.getText().toString());
+                    sb.append("\nTime Since Last Log: \n");
+                    sb.append(StatsAnalytics.timeSinceLastLog(mContext, packageName));
+                    textview.setText(sb.toString().trim());
                 }
             });
     }
