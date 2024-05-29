@@ -45,6 +45,8 @@ public class MainActivity extends Activity
         final LinearLayout baseLayout = findViewById(R.id.base);
         final TextView textview = findViewById(R.id.text);
         final Spinner spinner = findViewById(R.id.spinner);
+        final TextView directoryTxt = findViewById(R.id.directory_txt);
+        final TextView timeTxt = findViewById(R.id.time_txt);
         
         baseLayout.post(new Runnable(){
                 @Override
@@ -52,8 +54,8 @@ public class MainActivity extends Activity
                     baseLayout.addView(BarGraphView.create(mContext));
                 }
             });
-        List<String> packageNames = StatsAnalytics.getPackageNames(mContext);
         
+        List<String> packageNames = StatsAnalytics.getPackageNames(mContext);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, packageNames);
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -62,12 +64,11 @@ public class MainActivity extends Activity
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String packageName = (String) parent.getItemAtPosition(position);
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(packageName + "\n");
-                    sb.append(StatsAnalytics.getProjectDirPath(mContext, packageName));
-                    sb.append("\nTime Since Last Log: \n");
-                    sb.append(StatsAnalytics.timeSinceLastLog(mContext, packageName));
-                    textview.setText(sb.toString().trim());
+                    
+                    directoryTxt.setText("Project's Folder: \n" +
+                    StatsAnalytics.getProjectDirPath(mContext, packageName));
+                    timeTxt.setText("Time Since Last Log: \n" +
+                    StatsAnalytics.timeSinceLastLog(mContext, packageName));
                 }
             });
     }

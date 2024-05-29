@@ -10,6 +10,29 @@
 		android:layout_height="wrap_content"
 		android:id="@+id/spinner"/>
 
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="75dp">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:text="Text"
+			android:layout_weight="1.0"
+			android:id="@+id/directory_txt"
+			android:padding="8dp"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:text="Text"
+			android:layout_weight="1.0"
+			android:id="@+id/time_txt"
+			android:padding="8dp"/>
+
+	</LinearLayout>
+
 	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
