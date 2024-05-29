@@ -25,27 +25,15 @@ public class BarGraphView
                 @Override
                 public void onGlobalLayout () {
                     layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
-                    int padding = (int) layout.getWidth() / 60;
-                    layout.setPadding(padding, padding, padding, padding);
-                    layout.setBackground(drawCanvas(layout, layout.getWidth(), layout.getHeight(), padding, yValues));
+                    layout.setBackground(drawCanvas(layout, layout.getWidth(), layout.getHeight(), yValues));
                 }
             });
         return layout;
     }
 
-    static BitmapDrawable drawCanvas (View view, int width, int height, int padding, List<Integer> yValues) {
+    static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.FILL);
-
-        int canvasHeight = canvas.getHeight();
-        int canvasWidth = canvas.getWidth();
-
-        float[] line2 = {padding, canvasHeight - padding, canvasWidth - padding, canvasHeight - padding};
-        //canvas.drawLine(line2[0], line2[1], line2[2], line2[3], paint);
         displayLines(canvas, yValues);
         return new BitmapDrawable(view.getResources(), bitmap);
     }
