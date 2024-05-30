@@ -44,17 +44,7 @@ public class MainActivity extends Activity
         final Spinner spinner = findViewById(R.id.spinner);
         final TextView directoryTxt = findViewById(R.id.directory_txt);
         final TextView timeTxt = findViewById(R.id.time_txt);
-        final LinearLayout baseLayout = findViewById(R.id.base);
-
-        baseLayout.post(new Runnable(){
-                @Override
-                public void run () {
-//                    baseLayout.addView(StatsAnalytics.GraphMaker.last24hours(mContext));
-//                    baseLayout.addView(StatsAnalytics.GraphMaker.last7days(mContext));
-//                    baseLayout.addView(StatsAnalytics.GraphMaker.last30days(mContext));
-//                    baseLayout.addView(StatsAnalytics.GraphMaker.test(mContext));
-                }
-            });
+        final LinearLayout scrollLayout = findViewById(R.id.scroll);
 
         List<String> packageNames = StatsAnalytics.getPackageNames(mContext);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, packageNames);
@@ -70,11 +60,11 @@ public class MainActivity extends Activity
                                          StatsAnalytics.getProjectDirPath(mContext, packageName));
                     timeTxt.setText("Time Since Last Log: \n" +
                                     StatsAnalytics.timeSinceLastLog(mContext, packageName));
-                    baseLayout.removeAllViews();
-                    baseLayout.addView(StatsAnalytics.GraphMaker.insertsAndDeletes(mContext, packageName));
-                    baseLayout.addView(StatsAnalytics.GraphMaker.deletes(mContext, packageName));
-                    baseLayout.addView(StatsAnalytics.GraphMaker.inserts(mContext, packageName));
-                    baseLayout.addView(StatsAnalytics.GraphMaker.last24hours(mContext, packageName));
+                    scrollLayout.removeAllViews();
+                    scrollLayout.addView(StatsAnalytics.GraphMaker.insertsAndDeletes(mContext, packageName));
+                    scrollLayout.addView(StatsAnalytics.GraphMaker.deletes(mContext, packageName));
+                    scrollLayout.addView(StatsAnalytics.GraphMaker.inserts(mContext, packageName));
+                    scrollLayout.addView(StatsAnalytics.GraphMaker.last24hours(mContext, packageName));
                 }
             });
     }
