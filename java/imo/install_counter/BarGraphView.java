@@ -52,13 +52,15 @@ public class BarGraphView
         int maxY = Collections.max(yValues);
         
         for(int yValue: yValues){
-            float lineHeight = (yValue / (float) maxY) * canvasHeight;
-            int startX = currentX;
-            int startY = canvasHeight;
-            int stopX = currentX;
-            float stopY = canvasHeight - lineHeight;
-            float[] line = {startX, startY, stopX, stopY};
-            canvas.drawLine(line[0], line[1], line[2], line[3], paint);
+            if(yValue > 0){
+                float lineHeight = (yValue / (float) maxY) * canvasHeight;
+                int startX = currentX;
+                int startY = canvasHeight;
+                int stopX = currentX;
+                float stopY = canvasHeight - lineHeight;
+                float[] line = {startX, startY, stopX, stopY};
+                canvas.drawLine(line[0], line[1], line[2], line[3], paint);
+            }
             currentX += lineSpacing;
         }
     }
