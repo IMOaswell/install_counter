@@ -6,7 +6,6 @@ import android.icu.util.Calendar;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashSet;
 
 public class StatsWriter
@@ -17,26 +16,23 @@ public class StatsWriter
 
     static void recordStat (Context mContext, File stats_log, int index, boolean isAmmend) {
         //will record e.g 44 2024-MAY-19 01:39pm files:3 +27 -6
-        String recordString = index + " " + getCurrentDate() + " " + getCurrentTime() + " ";
+        Calendar cal = Calendar.getInstance();
+        String recordString = index + " " + getCurrentDate(cal) + " " + getCurrentTime(cal) + " ";
         String previousContent = StatsReader.read(stats_log);
         write(stats_log, previousContent + "\n" + recordString);
         addGitChanges(mContext, stats_log, isAmmend);
     }
 
-    private static String getCurrentDate () {
+    private static String getCurrentDate (Calendar calendar) {
         //will return e.g 2024-MAY-19
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MMM-dd");
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
-        return dateFormat.format(date);
+        return dateFormat.format(calendar.getTime());
     }
 
-    private static String getCurrentTime () {
+    private static String getCurrentTime (Calendar calendar) {
         //will return e.g 01:39pm
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mma");
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
-        return dateFormat.format(date);
+        return dateFormat.format(calendar.getTime());
     }
 
     private static void addGitChanges (Context mContext, File stats_log, boolean isAmmend) {
@@ -110,7 +106,7 @@ public class StatsWriter
 
         write(stats_log, newContent);
     }
-
+    
     private static void write (File file, String input) {
         try {
             if (!file.exists()) file.createNewFile();
