@@ -61,6 +61,7 @@ public class BarGraphView
                 float[] line = {startX, startY, stopX, stopY};
                 canvas.drawLine(line[0], line[1], line[2], line[3], paint);
             }
+            canvas.drawCircle(currentX, canvasHeight - 1, 1, paint);
             currentX += lineSpacing;
         }
     }
