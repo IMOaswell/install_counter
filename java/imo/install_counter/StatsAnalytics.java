@@ -1,13 +1,18 @@
 package imo.install_counter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import android.graphics.Color;
+import java.util.Collections;
 
 public class StatsAnalytics
 {
@@ -87,9 +92,31 @@ public class StatsAnalytics
             }
             return BarGraphView.create(mContext, graphData, Color.BLUE);
         }
-//        static View last24hours(Context mContext){
-//            return BarGraphView.create(mContext);
-//        }
+        static View last24hours(Context mContext, String packageName){
+//            List<Integer> graphData = new ArrayList<>();
+            File stats_log = getStatsLog(mContext, packageName);
+            List<Stat> statsDescending = StatsReader.getStats(mContext, stats_log);
+            Collections.reverse(statsDescending);
+            
+            final int HOURS = 24;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MMM-dd hh:mma");
+            Calendar calendar = Calendar.getInstance();
+            Date currentDate = new Date();
+            
+            TextView textview = new TextView(mContext);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < HOURS + 1; i++) {
+                calendar.setTime(currentDate);
+                calendar.add(Calendar.HOUR_OF_DAY, -i);
+                Date date = calendar.getTime();
+                String formattedDate = dateFormat.format(date);
+                
+                sb.append(-i + "\t" + formattedDate + "\n");
+            }
+            textview.setText(sb.toString());
+            return textview;
+//            return BarGraphView.create(mContext, graphData);
+        }
 //        static View last7days(Context mContext){
 //            return BarGraphView.create(mContext);
 //        }

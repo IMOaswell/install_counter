@@ -74,9 +74,11 @@ public class MainActivity extends Activity
                     baseLayout.addView(StatsAnalytics.GraphMaker.insertsAndDeletes(mContext, packageName));
                     baseLayout.addView(StatsAnalytics.GraphMaker.deletes(mContext, packageName));
                     baseLayout.addView(StatsAnalytics.GraphMaker.inserts(mContext, packageName));
+                    baseLayout.addView(StatsAnalytics.GraphMaker.last24hours(mContext, packageName));
                 }
             });
     }
+    
     public void setModeRecieveApk (final Uri apkUri) {
         setContentView(R.layout.recieve_apk);
 
