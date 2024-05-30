@@ -81,6 +81,7 @@ public class StatsWriter
 
     static void optimizeStatsLog (File stats_log) {
         collapseDates(stats_log);
+        updateStatsLog(stats_log);
     }
 
     static void collapseDates (File stats_log) {
@@ -104,6 +105,12 @@ public class StatsWriter
             newContent += output + "\n";
         }
 
+        write(stats_log, newContent);
+    }
+    
+    static void updateStatsLog(File stats_log){
+        String newContent = StatsReader.read(stats_log).replace("am", "AM");
+        newContent = StatsReader.read(stats_log).replace("pm", "PM");
         write(stats_log, newContent);
     }
     
