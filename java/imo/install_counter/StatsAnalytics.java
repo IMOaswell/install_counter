@@ -93,29 +93,40 @@ public class StatsAnalytics
             return BarGraphView.create(mContext, graphData, Color.BLUE);
         }
         static View last24hours(Context mContext, String packageName){
-//            List<Integer> graphData = new ArrayList<>();
+            List<Integer> graphData = new ArrayList<>();
             File stats_log = getStatsLog(mContext, packageName);
             List<Stat> statsDescending = StatsReader.getStats(mContext, stats_log);
             Collections.reverse(statsDescending);
             
             final int HOURS = 24;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MMM-dd hh:mma");
             Calendar calendar = Calendar.getInstance();
             Date currentDate = new Date();
             
-            TextView textview = new TextView(mContext);
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < HOURS + 1; i++) {
+            int insertsAndDeletes = 0;
+            for (int i = 1; i < HOURS + 1; i++) {
                 calendar.setTime(currentDate);
                 calendar.add(Calendar.HOUR_OF_DAY, -i);
                 Date date = calendar.getTime();
-                String formattedDate = dateFormat.format(date);
                 
-                sb.append(-i + "\t" + formattedDate + "\n");
+                List<Stat> usedStats = new ArrayList<>();
+                for(Stat stat : statsDescending){
+                    Date statDate = StatsReader.getDate(stat);
+                    if(statDate.after(date) || statDate.equals(date)){
+                        insertsAndDeletes += stat.INSERTS + stat.DELETES;
+                        usedStats.add(stat);
+                    }else{
+                        break;
+                    }
+                }
+                for(Stat usedStat : usedStats){
+                    statsDescending.remove(usedStat);
+                }
+                graphData.add(insertsAndDeletes);
+                insertsAndDeletes = 0;
             }
-            textview.setText(sb.toString());
-            return textview;
-//            return BarGraphView.create(mContext, graphData);
+            Collections.reverse(graphData);
+            
+            return BarGraphView.create(mContext, graphData);
         }
 //        static View last7days(Context mContext){
 //            return BarGraphView.create(mContext);
