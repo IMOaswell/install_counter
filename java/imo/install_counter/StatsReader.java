@@ -22,25 +22,21 @@ public class StatsReader
         for (String log : logs) {
             STATS.add(new Stat(log));
         }
+        String DATE = "";
+        for(Stat stat : STATS){
+            if(stat.DATE.equals("*")){
+                stat.DATE = DATE;
+            }else{
+                DATE = stat.DATE;
+            }
+        }
         return STATS;
     }
 
     static Stat getLastStat (Context mContext, File stats_log) {
         List<Stat> Stats = getStats(mContext, stats_log);
         Stat lastStat = Stats.get(Stats.size() - 1);
-        if (lastStat.DATE.equals("*")) {
-            lastStat = getStatWithDate(lastStat, Stats);
-        }
         return lastStat;
-    }
-    
-    static Stat getStatWithDate(Stat stat, List<Stat> Stats){
-        for (int i = Stats.indexOf(stat); i >= 0; i--) {
-            String dateAtPosition = Stats.get(i).DATE;
-            if (!(dateAtPosition.equals("*"))) 
-                stat.DATE = dateAtPosition;
-        }
-        return stat;
     }
     
     static Date getDate(Stat stat){
