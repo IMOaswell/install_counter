@@ -6,6 +6,7 @@ import android.icu.util.Calendar;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashSet;
 
 public class StatsWriter
@@ -24,23 +25,18 @@ public class StatsWriter
 
     private static String getCurrentDate () {
         //will return e.g 2024-MAY-19
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MMM-dd");
         Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        String monthString = new SimpleDateFormat("MMM").format(calendar.getTime());
-        final String DATE = year + "-" + monthString + "-" + day;
-        return DATE;
+        Date date = calendar.getTime();
+        return dateFormat.format(date);
     }
 
     private static String getCurrentTime () {
         //will return e.g 01:39pm
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mma");
         Calendar calendar = Calendar.getInstance();
-        String hour = String.format("%02d", calendar.get(Calendar.HOUR));
-        String minute = String.format("%02d", calendar.get(Calendar.MINUTE));
-        int amPm = calendar.get(Calendar.AM_PM);
-        String amPmString = (amPm == Calendar.AM) ? "am" : "pm";
-        final String TIME = hour + ":" + minute + amPmString;
-        return TIME;
+        Date date = calendar.getTime();
+        return dateFormat.format(date);
     }
 
     private static void addGitChanges (Context mContext, File stats_log, boolean isAmmend) {
