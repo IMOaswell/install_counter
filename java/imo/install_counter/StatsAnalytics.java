@@ -74,6 +74,12 @@ public class StatsAnalytics
             
             final int HOURS = 24;
             Calendar calendar = Calendar.getInstance();
+            int minutes = calendar.get(Calendar.MINUTE);
+            if(minutes < 30){ //round to nearest hour
+                calendar.set(Calendar.MINUTE, 0);
+            }else{
+                calendar.add(Calendar.HOUR_OF_DAY, 1);
+            }
             Date currentDate = new Date();
             
             int insertsAndDeletes = 0;
