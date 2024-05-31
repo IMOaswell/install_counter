@@ -65,48 +65,33 @@ public class StatsAnalytics
     }
 
     static class GraphMaker {
-        
-        static View last24hours(Context mContext, String packageName){
-            List<Integer> graphData = new ArrayList<>();
+        static View graphOfToday(Context mContext, String packageName){
             File stats_log = getStatsLog(mContext, packageName);
-            List<Stat> statsDescending = StatsReader.getStats(mContext, stats_log);
-            Collections.reverse(statsDescending);
+            List<Stat> stats = StatsReader.getStats(mContext, stats_log);
+            Collections.reverse(stats);
             
-            final int HOURS = 24;
-            Calendar calendar = Calendar.getInstance();
-            int minutes = calendar.get(Calendar.MINUTE);
-            if(minutes < 30){ //round to nearest hour
-                calendar.set(Calendar.MINUTE, 0);
-            }else{
-                calendar.add(Calendar.HOUR_OF_DAY, 1);
+            List<Integer> dataForEachHour = new ArrayList<>();
+            for (int i = 0; i < 24; i++) {
+                dataForEachHour.add(0);
             }
-            Date currentDate = new Date();
             
-            int insertsAndDeletes = 0;
-            for (int i = 1; i < HOURS + 1; i++) {
-                calendar.setTime(currentDate);
-                calendar.add(Calendar.HOUR_OF_DAY, -i);
-                Date date = calendar.getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd");
+            String today = sdf.format(new Date());
+            boolean isLastStatsDateToday = today.equals(stats.get(0).DATE);
+            if(!isLastStatsDateToday) return BarGraphView.create(mContext, dataForEachHour);
+            
+            for(Stat stat : stats){
+                if(!today.equals(stat.DATE)) break;
+                Date statToday = StatsReader.getDate(stat);
+                SimpleDateFormat hour_sdf = new SimpleDateFormat("HH");
+                int hour = Integer.parseInt(hour_sdf.format(statToday));
                 
-                List<Stat> usedStats = new ArrayList<>();
-                for(Stat stat : statsDescending){
-                    Date statDate = StatsReader.getDate(stat);
-                    if(statDate.after(date) || statDate.equals(date)){
-                        insertsAndDeletes += stat.INSERTS + stat.DELETES;
-                        usedStats.add(stat);
-                    }else{
-                        break;
-                    }
-                }
-                for(Stat usedStat : usedStats){
-                    statsDescending.remove(usedStat);
-                }
-                graphData.add(insertsAndDeletes);
-                insertsAndDeletes = 0;
+                int hourData = dataForEachHour.get(hour);
+                hourData += stat.INSERTS + stat.DELETES;
+                dataForEachHour.set(hour, hourData);
             }
-            Collections.reverse(graphData);
             
-            return BarGraphView.create(mContext, graphData);
+            return BarGraphView.create(mContext, dataForEachHour);
         }
 //        static View last7days(Context mContext){
 //            return BarGraphView.create(mContext);
