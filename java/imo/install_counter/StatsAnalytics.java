@@ -65,11 +65,22 @@ public class StatsAnalytics
     }
 
     static class GraphMaker {
-        static View graphOfToday(Context mContext, String packageName){
+        static List<Stat> stats;
+        static String packageName;
+        
+        static View graphOfToday(Context mContext){
+            return graphOfToday(mContext, packageName, stats);
+        }
+        
+        static View graphOfToday(Context mContext, String pkgName){
+            packageName = pkgName;
             File stats_log = getStatsLog(mContext, packageName);
-            List<Stat> stats = StatsReader.getStats(mContext, stats_log);
+            stats = StatsReader.getStats(mContext, stats_log);
             Collections.reverse(stats);
-            
+            return graphOfToday(mContext, packageName, stats);
+        }
+        
+        static View graphOfToday(Context mContext, String packageName, List<Stat> stats){
             List<Integer> dataForEachHour = new ArrayList<>();
             for (int i = 0; i < 24; i++) {
                 dataForEachHour.add(0);
@@ -93,6 +104,7 @@ public class StatsAnalytics
             
             return BarGraphView.create(mContext, dataForEachHour);
         }
+        
 //        static View last7days(Context mContext){
 //            return BarGraphView.create(mContext);
 //        }
