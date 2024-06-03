@@ -12,6 +12,8 @@ import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import java.util.Collections;
 import java.util.List;
+import android.view.Gravity;
+import android.widget.SeekBar;
 
 public class BarGraphView
 {
@@ -19,18 +21,25 @@ public class BarGraphView
         return create(mContext, yValues, Color.BLACK);
     }
     static ViewGroup create (final Context mContext, final List<Integer> yValues, final int linesColor) {
-        final LinearLayout layout = new LinearLayout(mContext);
+        LinearLayout layout = new LinearLayout(mContext);
         layout.setLayoutParams(new LinearLayout.LayoutParams(
                                    LinearLayout.LayoutParams.MATCH_PARENT, 
-                                   200));
+                                   LinearLayout.LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        layout.setGravity(Gravity.CENTER);
+        
+        final LinearLayout graph = new LinearLayout(mContext);
+        graph.setLayoutParams(new LinearLayout.LayoutParams(
+                                  LinearLayout.LayoutParams.MATCH_PARENT, 
+                                  200));
+        graph.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout () {
-                    layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    layout.setBackground(drawCanvas(layout, layout.getWidth(), layout.getHeight(), yValues, linesColor));
-                }
+                    graph.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    graph.setBackground(drawCanvas(graph, graph.getWidth(), graph.getHeight(), yValues, linesColor));
+                    }
             });
+        layout.addView(graph);
         return layout;
     }
 
