@@ -36,28 +36,54 @@ public class BarGraphView
                     graph.setBackground(drawCanvas(graph, graph.getWidth(), graph.getHeight(), yValues));
                     }
             });
+        final SeekBar seekbar = new SeekBar(mContext);
+        seekbar.setMax(yValues.size() - 1);
+        seekbar.setProgress(yValues.size() - 1);
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+                @Override public void onStartTrackingTouch(SeekBar v){}
+                @Override public void onStopTrackingTouch(SeekBar v){}
+                @Override
+                public void onProgressChanged(SeekBar v, int progress, boolean fromUser){
+                    graph.setBackground(drawCanvas(graph, graph.getWidth(), graph.getHeight(), yValues, progress));
+                }
+            });
+
         layout.addView(graph);
+        layout.addView(seekbar);
         return layout;
     }
 
     static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues) {
+        return drawCanvas(view, width, height, yValues, yValues.size() - 1);
+    }
+    
+    static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues, int headPosition) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        displayLines(canvas, yValues);
+        displayLines(canvas, yValues, headPosition);
         return new BitmapDrawable(view.getResources(), bitmap);
     }
     
-    static void displayLines(Canvas canvas, List<Integer> yValues){
+    static void displayLines(Canvas canvas, List<Integer> yValues, int headPosition){
         int canvasHeight = canvas.getHeight();
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.FILL);
+        Paint black_paint = new Paint();
+        black_paint.setColor(Color.BLACK);
+        black_paint.setStyle(Paint.Style.FILL);
+        
+        Paint red_paint = new Paint();
+        red_paint.setColor(Color.RED);
+        red_paint.setStyle(Paint.Style.FILL);
         
         int lineSpacing = canvas.getWidth() / yValues.size();
         int currentX = 10;
         int maxY = Collections.max(yValues);
         
+        int i = 0;
         for(int yValue: yValues){
+            i++;
+            Paint paint = black_paint;
+            if(i == headPosition + 1) paint = red_paint;
+            
             if(yValue > 0){
                 float lineHeight = (yValue / (float) maxY) * canvasHeight;
                 int startX = currentX;
