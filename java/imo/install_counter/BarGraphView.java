@@ -17,10 +17,7 @@ import android.widget.SeekBar;
 
 public class BarGraphView
 {
-    static ViewGroup create(final Context mContext, final List<Integer> yValues){
-        return create(mContext, yValues, Color.BLACK);
-    }
-    static ViewGroup create (final Context mContext, final List<Integer> yValues, final int linesColor) {
+    static ViewGroup create (final Context mContext, final List<Integer> yValues) {
         LinearLayout layout = new LinearLayout(mContext);
         layout.setLayoutParams(new LinearLayout.LayoutParams(
                                    LinearLayout.LayoutParams.MATCH_PARENT, 
@@ -36,24 +33,24 @@ public class BarGraphView
                 @Override
                 public void onGlobalLayout () {
                     graph.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    graph.setBackground(drawCanvas(graph, graph.getWidth(), graph.getHeight(), yValues, linesColor));
+                    graph.setBackground(drawCanvas(graph, graph.getWidth(), graph.getHeight(), yValues));
                     }
             });
         layout.addView(graph);
         return layout;
     }
 
-    static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues, int linesColor) {
+    static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        displayLines(canvas, yValues, linesColor);
+        displayLines(canvas, yValues);
         return new BitmapDrawable(view.getResources(), bitmap);
     }
     
-    static void displayLines(Canvas canvas, List<Integer> yValues, int linesColor){
+    static void displayLines(Canvas canvas, List<Integer> yValues){
         int canvasHeight = canvas.getHeight();
         Paint paint = new Paint();
-        paint.setColor(linesColor);
+        paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
         
         int lineSpacing = canvas.getWidth() / yValues.size();
