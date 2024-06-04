@@ -51,7 +51,8 @@ public class MainActivity extends Activity{
         
         for(int i = 0; i < StatsAnalytics.Graph.Modes.modes.length; i++){
             final RadioButton radioBtn = new RadioButton(mContext);
-            radioBtn.setText(StatsAnalytics.Graph.Modes.modes[i]);
+            final String mode = StatsAnalytics.Graph.Modes.modes[i];
+            radioBtn.setText(mode);
             radioBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v){
@@ -59,6 +60,7 @@ public class MainActivity extends Activity{
                             if(radioButton.isChecked()) radioButton.setChecked(false);
                         }
                         radioBtn.setChecked(true);
+                        StatsAnalytics.Graph.Modes.set(mode);
                     }
                 });
             radioButtons.add(radioBtn);

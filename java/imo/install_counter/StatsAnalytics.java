@@ -74,7 +74,11 @@ public class StatsAnalytics{
             static final String INSERTS_AND_DELETES = "Combined";
             static final String LOGS = "Logs";
             static final String[] modes = {INSERTS, DELETES, INSERTS_AND_DELETES, LOGS};
-            static String current = INSERTS;
+            private static String current = INSERTS;
+            
+            static void set(String code){
+                current = code;
+            }
             
             static int addDataByMode(Stat stat){
                 switch(current){
