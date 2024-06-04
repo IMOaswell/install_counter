@@ -45,6 +45,10 @@ public class BarGraphView
         return create(mContext, yValues, xValues, onProgressChange, maxY);
     }
     
+    int getMaxY(){
+        return Collections.max(yValues);
+    }
+    
     private static ViewGroup create (final Context mContext, final List<Integer> yValues, final List<String> xValues, final OnProgressChange onProgressChange, final int maxY) {
         LinearLayout layout = new LinearLayout(mContext);
         layout.setLayoutParams(new LinearLayout.LayoutParams(

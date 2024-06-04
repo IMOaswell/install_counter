@@ -91,10 +91,10 @@ public class StatsAnalytics
         static View graphOfToday(Context mContext, String packageName, List<Stat> stats){
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd");
             String todayDateString = sdf.format(new Date());
-            return graphOfDay(mContext, packageName, stats, todayDateString);
+            return graphOfDay(mContext, packageName, stats, todayDateString).create();
         }
         
-        static View graphOfDay(Context mContext, String packageName, List<Stat> stats, String dateString){
+        static BarGraphView graphOfDay(Context mContext, String packageName, List<Stat> stats, String dateString){
             List<Integer> dataForEachHour = new ArrayList<>();
             List<String> stringsForEachHour = new ArrayList<>();
             for (int i = 0; i < 24; i++) {
@@ -119,7 +119,7 @@ public class StatsAnalytics
             
             BarGraphView barGraph = new BarGraphView(mContext, dataForEachHour)
             .stringsForEachY(stringsForEachHour);
-            return barGraph.create();
+            return barGraph;
         }
         
         static View graphOfPastDays(final Context mContext, final String packageName, final List<Stat> stats, final int daysRange){
@@ -154,13 +154,19 @@ public class StatsAnalytics
             final TextView text = new TextView(mContext);
             layout.setOrientation(LinearLayout.VERTICAL);
             
+            final List<Integer> maxYOfGraphs = new ArrayList<>();
+            for(String date : dates){
+                maxYOfGraphs.add(0);
+            }
+            
             BarGraphView.OnProgressChange onProgressChange = new BarGraphView.OnProgressChange(){
                 @Override
                 public void run(int progress){
                     if(layout.getChildCount() > 2) layout.removeViewAt(2);
-                    View graphOfDay = graphOfDay(mContext, packageName, stats, dates.get(progress));
-                    layout.addView(graphOfDay);
-                    text.setText(dates.get(progress));
+                    BarGraphView graphOfDay = graphOfDay(mContext, packageName, stats, dates.get(progress));
+                    maxYOfGraphs.set(progress, graphOfDay.getMaxY());
+                    layout.addView(graphOfDay.create());
+                    text.setText(dates.get(progress) + "\t max Y of graphs: " + Collections.max(maxYOfGraphs));
                 }
             };
             
