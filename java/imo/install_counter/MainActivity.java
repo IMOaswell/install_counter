@@ -49,9 +49,9 @@ public class MainActivity extends Activity{
 
         final List<RadioButton> radioButtons = new ArrayList<>();
         
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < StatsAnalytics.Graph.Modes.modes.length; i++){
             final RadioButton radioBtn = new RadioButton(mContext);
-            radioBtn.setText("hallo:D");
+            radioBtn.setText(StatsAnalytics.Graph.Modes.modes[i]);
             radioBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v){
@@ -64,6 +64,7 @@ public class MainActivity extends Activity{
             radioButtons.add(radioBtn);
             selectionLayout.addView(radioBtn);
         }
+        radioButtons.get(0).callOnClick();
 
         List<String> packageNames = StatsAnalytics.getPackageNames(mContext);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, packageNames);

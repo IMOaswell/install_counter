@@ -69,11 +69,12 @@ public class StatsAnalytics{
         static final int PAST_30_DAYS = 1;
         
         static class Modes {
-            static final int INSERTS = 10;
-            static final int DELETES = 20;
-            static final int INSERTS_AND_DELETES = 30;
-            static final int LOGS = 40;
-            static int current = INSERTS;
+            static final String INSERTS = "Insertions";
+            static final String DELETES = "Deletions";
+            static final String INSERTS_AND_DELETES = "Combined";
+            static final String LOGS = "Logs";
+            static final String[] modes = {INSERTS, DELETES, INSERTS_AND_DELETES, LOGS};
+            static String current = INSERTS;
             
             static int addDataByMode(Stat stat){
                 switch(current){
