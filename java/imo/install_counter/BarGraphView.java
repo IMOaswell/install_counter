@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import android.view.Gravity;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 public class BarGraphView
 {
@@ -36,6 +37,10 @@ public class BarGraphView
                     graph.setBackground(drawCanvas(graph, graph.getWidth(), graph.getHeight(), yValues));
                     }
             });
+            
+        final TextView textview = new TextView(mContext);
+        textview.setGravity(Gravity.CENTER);
+        
         final SeekBar seekbar = new SeekBar(mContext);
         seekbar.setMax(yValues.size() - 1);
         seekbar.setProgress(yValues.size() - 1);
@@ -45,10 +50,12 @@ public class BarGraphView
                 @Override
                 public void onProgressChanged(SeekBar v, int progress, boolean fromUser){
                     graph.setBackground(drawCanvas(graph, graph.getWidth(), graph.getHeight(), yValues, progress));
+                    textview.setText(yValues.get(progress) + "");
                 }
             });
-
+            
         layout.addView(graph);
+        layout.addView(textview);
         layout.addView(seekbar);
         return layout;
     }
