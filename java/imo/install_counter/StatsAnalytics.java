@@ -67,7 +67,29 @@ public class StatsAnalytics{
         static String packageName;
         static final int TODAY = 0;
         static final int PAST_30_DAYS = 1;
-
+        
+        static class Modes {
+            static final int INSERTS = 10;
+            static final int DELETES = 20;
+            static final int INSERTS_AND_DELETES = 30;
+            static final int LOGS = 40;
+            static int current = INSERTS;
+            
+            static int addDataByMode(Stat stat){
+                switch(current){
+                    case INSERTS:
+                        return stat.INSERTS;
+                    case DELETES:
+                        return stat.DELETES;
+                    case INSERTS_AND_DELETES:
+                        return stat.INSERTS + stat.DELETES;
+                    case LOGS:
+                        return 1;
+                }
+                return -1;
+            }
+        }
+        
         static View make(Context mContext,String pkgName,int code){
             if(pkgName != null) populateVariables(mContext, pkgName);
             switch(code){
@@ -113,7 +135,7 @@ public class StatsAnalytics{
                 int hour = Integer.parseInt(hour_sdf.format(statToday));
 
                 int hourData = dataForEachHour.get(hour);
-                hourData++;
+                hourData += Modes.addDataByMode(stat);
                 dataForEachHour.set(hour, hourData);
             }
 
@@ -142,7 +164,7 @@ public class StatsAnalytics{
                 int i = dates.indexOf(stat.DATE);
                 if(i == -1) break;
                 int dayData = dataForEachDay.get(i);
-                dayData++;
+                dayData += Modes.addDataByMode(stat);
                 dataForEachDay.set(i, dayData);
             }
 
