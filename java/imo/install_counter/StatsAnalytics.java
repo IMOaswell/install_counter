@@ -164,8 +164,11 @@ public class StatsAnalytics
                 public void run(int progress){
                     if(layout.getChildCount() > 2) layout.removeViewAt(2);
                     BarGraphView graphOfDay = graphOfDay(mContext, packageName, stats, dates.get(progress));
+                    
+                    int maxY = Collections.max(maxYOfGraphs);
+                    layout.addView(graphOfDay.setMaxY(maxY).create());
+                    
                     maxYOfGraphs.set(progress, graphOfDay.getMaxY());
-                    layout.addView(graphOfDay.create());
                     text.setText(dates.get(progress) + "\t max Y of graphs: " + Collections.max(maxYOfGraphs));
                 }
             };
