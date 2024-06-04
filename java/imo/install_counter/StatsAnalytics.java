@@ -68,16 +68,29 @@ public class StatsAnalytics
         static List<Stat> stats;
         static String packageName;
         
+        static void populateVariables(Context mContext, String pkgName){
+            packageName = pkgName;
+            File stats_log = getStatsLog(mContext, packageName);
+            stats = StatsReader.getStats(mContext, stats_log);
+            Collections.reverse(stats);
+        }
+        
         static View graphOfToday(Context mContext){
             return graphOfToday(mContext, packageName, stats);
         }
         
         static View graphOfToday(Context mContext, String pkgName){
-            packageName = pkgName;
-            File stats_log = getStatsLog(mContext, packageName);
-            stats = StatsReader.getStats(mContext, stats_log);
-            Collections.reverse(stats);
+            populateVariables(mContext, pkgName);
             return graphOfToday(mContext, packageName, stats);
+        }
+        
+        static View graphOf7days(Context mContext){
+            return graphOfPast7days(mContext, packageName, stats);
+        }
+        
+        static View graphOf7days(Context mContext, String pkgName){
+            populateVariables(mContext, pkgName);
+            return graphOfPast7days(mContext, packageName, stats);
         }
         
         static View graphOfToday(Context mContext, String packageName, List<Stat> stats){
@@ -111,9 +124,36 @@ public class StatsAnalytics
             return BarGraphView.create(mContext, dataForEachHour, stringsForEachHour);
         }
         
-//        static View last7days(Context mContext){
-//            return BarGraphView.create(mContext);
-//        }
+        static View graphOfPast7days(Context mContext, String packageName, List<Stat> stats){
+            List<Integer> dataForEachDay = new ArrayList<>();
+            List<String> stringsForEachDay = new ArrayList<>();
+            
+            List<String> datesOfLast7days = new ArrayList<>();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd");
+            Calendar calendar = Calendar.getInstance();
+            
+            for (int i = 0; i < 7; i++) {
+                dataForEachDay.add(0);
+                String date = sdf.format(calendar.getTime());
+                datesOfLast7days.add(date);
+                stringsForEachDay.add(date + " : ");
+                calendar.add(Calendar.DAY_OF_YEAR, -1);
+            }
+            
+            boolean isLastStatsDateThisWeek = false;
+            for(String date : datesOfLast7days){
+                if(stats.get(0).DATE.equals(date)){
+                    isLastStatsDateThisWeek = true;
+                    break;
+                }
+            }
+            TextView test = new TextView(mContext);
+            if(!isLastStatsDateThisWeek) return test;
+            
+            test.setText(datesOfLast7days.toString());
+            return test;
+        }
+        
 //        static View last30days(Context mContext){
 //            return BarGraphView.create(mContext);
 //        }
