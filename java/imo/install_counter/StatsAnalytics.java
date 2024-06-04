@@ -116,8 +116,10 @@ public class StatsAnalytics
                 hourData++;
                 dataForEachHour.set(hour, hourData);
             }
-
-            return BarGraphView.create(mContext, dataForEachHour, stringsForEachHour);
+            
+            BarGraphView barGraph = new BarGraphView(mContext, dataForEachHour)
+            .stringsForEachY(stringsForEachHour);
+            return barGraph.create();
         }
         
         static View graphOfPastDays(final Context mContext, final String packageName, final List<Stat> stats, final int daysRange){
@@ -162,7 +164,11 @@ public class StatsAnalytics
                 }
             };
             
-            layout.addView(BarGraphView.create(mContext, dataForEachDay, stringsForEachDay, onProgressChange));
+            BarGraphView barGraph = new BarGraphView(mContext, dataForEachDay)
+            .stringsForEachY(stringsForEachDay)
+            .setOnProgressChange(onProgressChange);
+            
+            layout.addView(barGraph.create());
             layout.addView(text);
             return layout;
         }

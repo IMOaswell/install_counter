@@ -18,23 +18,34 @@ import android.widget.TextView;
 
 public class BarGraphView
 {
-    static ViewGroup create (final Context mContext, final List<Integer> yValues) {
-        return create(mContext, yValues, null, null, -1);
+    Context mContext;
+    List<Integer> yValues;
+    List<String> xValues;
+    int maxY = -1;
+    OnProgressChange onProgressChange;
+    
+    BarGraphView(final Context mContext, final List<Integer> yValues){
+        this.mContext = mContext;
+        this.yValues = yValues;
     }
-    static ViewGroup create (final Context mContext, final List<Integer> yValues, int maxY) {
-        return create(mContext, yValues, null, null, maxY);
+    BarGraphView stringsForEachY(List<String> xValues){
+        this.xValues = xValues;
+        return this;
     }
-    static ViewGroup create (final Context mContext, final List<Integer> yValues, List<String> xValues) {
-        return create(mContext, yValues, xValues, null, -1);
+    BarGraphView setMaxY(int maxY){
+        this.maxY = maxY;
+        return this;
     }
-    static ViewGroup create (final Context mContext, final List<Integer> yValues, List<String> xValues, int maxY) {
-        return create(mContext, yValues, xValues, null, maxY);
-    }
-    static ViewGroup create (final Context mContext, final List<Integer> yValues, List<String> xValues, OnProgressChange onProgressChange) {
-        return create(mContext, yValues, xValues, onProgressChange, -1);
+    BarGraphView setOnProgressChange(OnProgressChange onProgressChange){
+        this.onProgressChange = onProgressChange;
+        return this;
     }
     
-    static ViewGroup create (final Context mContext, final List<Integer> yValues, final List<String> xValues, final OnProgressChange onProgressChange, final int maxY) {
+    View create(){
+        return create(mContext, yValues, xValues, onProgressChange, maxY);
+    }
+    
+    private static ViewGroup create (final Context mContext, final List<Integer> yValues, final List<String> xValues, final OnProgressChange onProgressChange, final int maxY) {
         LinearLayout layout = new LinearLayout(mContext);
         layout.setLayoutParams(new LinearLayout.LayoutParams(
                                    LinearLayout.LayoutParams.MATCH_PARENT, 
@@ -80,18 +91,18 @@ public class BarGraphView
         return layout;
     }
 
-    static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues, int mazY) {
+    private static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues, int mazY) {
         return drawCanvas(view, width, height, yValues, yValues.size() - 1, -1);
     }
     
-    static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues, int headPosition, int maxY) {
+    private static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues, int headPosition, int maxY) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         displayLines(canvas, yValues, headPosition, maxY);
         return new BitmapDrawable(view.getResources(), bitmap);
     }
     
-    static void displayLines(Canvas canvas, List<Integer> yValues, int headPosition, int maxY){
+    private static void displayLines(Canvas canvas, List<Integer> yValues, int headPosition, int maxY){
         int canvasHeight = canvas.getHeight();
         Paint black_paint = new Paint();
         black_paint.setColor(Color.BLACK);
