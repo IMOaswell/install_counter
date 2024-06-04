@@ -61,8 +61,8 @@ public class MainActivity extends Activity
                     timeTxt.setText("Time Since Last Log: \n" +
                                     StatsAnalytics.timeSinceLastLog(mContext, packageName));
                     scrollLayout.removeAllViews();
-                    scrollLayout.addView(StatsAnalytics.GraphMaker.makeGraph(mContext, packageName, StatsAnalytics.GraphMaker.TODAY));
-                    scrollLayout.addView(StatsAnalytics.GraphMaker.makeGraph(mContext, null, StatsAnalytics.GraphMaker.PAST_30_DAYS));
+                    scrollLayout.addView(StatsAnalytics.Graph.make(mContext, packageName, StatsAnalytics.Graph.TODAY));
+                    scrollLayout.addView(StatsAnalytics.Graph.make(mContext, null, StatsAnalytics.Graph.PAST_30_DAYS));
                 }
             });
     }

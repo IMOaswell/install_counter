@@ -64,13 +64,13 @@ public class StatsAnalytics
         return new File(getProjectDirPath(mContext, packageName),  "stats.log");
     }
 
-    static class GraphMaker {
+    static class Graph {
         static List<Stat> stats;
         static String packageName;
         static final int TODAY = 0;
         static final int PAST_30_DAYS = 1;
         
-        static View makeGraph(Context mContext, String pkgName, int code){
+        static View make(Context mContext, String pkgName, int code){
             if(pkgName != null) populateVariables(mContext, pkgName);
             switch(code){
                 case TODAY:
