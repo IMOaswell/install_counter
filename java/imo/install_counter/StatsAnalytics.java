@@ -123,29 +123,29 @@ public class StatsAnalytics
             List<Integer> dataForEachDay = new ArrayList<>();
             List<String> stringsForEachDay = new ArrayList<>();
             
-            List<String> datesOfLast7days = new ArrayList<>();
+            List<String> dates = new ArrayList<>();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd");
             Calendar calendar = Calendar.getInstance();
             
             for (int i = 0; i < daysRange; i++) {
                 dataForEachDay.add(0);
                 String date = sdf.format(calendar.getTime());
-                datesOfLast7days.add(date);
+                dates.add(date);
                 stringsForEachDay.add(date + " : ");
                 calendar.add(Calendar.DAY_OF_YEAR, -1);
             }
             
-            boolean isLastStatsDateThisWeek = false;
-            for(String date : datesOfLast7days){
+            boolean isLastStatsDateIncluded = false;
+            for(String date : dates){
                 if(stats.get(0).DATE.equals(date)){
-                    isLastStatsDateThisWeek = true;
+                    isLastStatsDateIncluded = true;
                     break;
                 }
             }
-            if(!isLastStatsDateThisWeek) return BarGraphView.create(mContext, dataForEachDay, stringsForEachDay);
+            if(!isLastStatsDateIncluded) return BarGraphView.create(mContext, dataForEachDay, stringsForEachDay);
             
             for(Stat stat : stats){
-                int i = datesOfLast7days.indexOf(stat.DATE);
+                int i = dates.indexOf(stat.DATE);
                 if(i == -1) break;
                 int dayData = dataForEachDay.get(i);
                 dayData++;
