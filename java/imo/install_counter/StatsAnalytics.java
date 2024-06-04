@@ -89,7 +89,9 @@ public class StatsAnalytics{
         static View graphOfToday(Context mContext,String packageName,List<Stat> stats){
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd");
             String todayDateString = sdf.format(new Date());
-            return graphOfDay(mContext, packageName, stats, todayDateString).create();
+            return graphOfDay(mContext, packageName, stats, todayDateString)
+            .setTitle("Today")
+            .create();
         }
 
         static BarGraphView graphOfDay(Context mContext,String packageName,List<Stat> stats,String dateString){
@@ -163,17 +165,21 @@ public class StatsAnalytics{
                     if(layout.getChildCount() > 2) layout.removeViewAt(2);
                     BarGraphView graphOfDay = graphOfDay(mContext, packageName, stats, dates.get(progress));
 
+                    String date = dates.get(progress);
                     int maxY = Collections.max(maxYOfGraphs);
-                    layout.addView(graphOfDay.setMaxY(maxY).create());
+                    layout.addView(graphOfDay.setMaxY(maxY)
+                    .setTitle(date)
+                    .create());
 
                     maxYOfGraphs.set(progress, graphOfDay.getMaxY());
-                    text.setText(dates.get(progress) + "\t max Y of graphs: " + Collections.max(maxYOfGraphs));
+                    text.setText("max Y of graphs: " + Collections.max(maxYOfGraphs));
                 }
             };
 
             BarGraphView barGraph = new BarGraphView(mContext, dataForEachDay)
                 .stringsForEachY(stringsForEachDay)
-                .setOnProgressChange(onProgressChange);
+                .setOnProgressChange(onProgressChange)
+                .setTitle("Last 30 Days");
 
             layout.addView(barGraph.create());
             layout.addView(text);

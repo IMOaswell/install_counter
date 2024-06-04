@@ -22,6 +22,7 @@ public class BarGraphView{
     List<String> xValues;
     int maxY = -1;
     OnProgressChange onProgressChange;
+    String title = "";
 
     BarGraphView(final Context mContext,final List<Integer> yValues){
         this.mContext = mContext;
@@ -39,22 +40,31 @@ public class BarGraphView{
         this.onProgressChange = onProgressChange;
         return this;
     }
+    
+    BarGraphView setTitle(String title){
+        this.title = title;
+        return this;
+    }
 
     View create(){
-        return create(mContext, yValues, xValues, onProgressChange, maxY);
+        return create(mContext, yValues, xValues, onProgressChange, maxY, title);
     }
 
     int getMaxY(){
         return Collections.max(yValues);
     }
 
-    private static ViewGroup create(final Context mContext,final List<Integer> yValues,final List<String> xValues,final OnProgressChange onProgressChange,final int maxY){
+    ViewGroup create(final Context mContext,final List<Integer> yValues,final List<String> xValues,final OnProgressChange onProgressChange,final int maxY, final String title){
         LinearLayout layout = new LinearLayout(mContext);
         layout.setLayoutParams(new LinearLayout.LayoutParams(
                                    LinearLayout.LayoutParams.MATCH_PARENT, 
                                    LinearLayout.LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setGravity(Gravity.CENTER);
+        
+        TextView titleText = new TextView(mContext);
+        titleText.setTextSize(20);
+        titleText.setText(title);
 
         final LinearLayout graph = new LinearLayout(mContext);
         graph.setLayoutParams(new LinearLayout.LayoutParams(
@@ -88,6 +98,7 @@ public class BarGraphView{
                 }
             });
 
+        layout.addView(titleText);
         layout.addView(graph);
         layout.addView(textview);
         layout.addView(seekbar);
