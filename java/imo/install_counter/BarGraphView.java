@@ -19,13 +19,22 @@ import android.widget.TextView;
 public class BarGraphView
 {
     static ViewGroup create (final Context mContext, final List<Integer> yValues) {
-        return create(mContext, yValues, null, null);
+        return create(mContext, yValues, null, null, -1);
+    }
+    static ViewGroup create (final Context mContext, final List<Integer> yValues, int maxY) {
+        return create(mContext, yValues, null, null, maxY);
     }
     static ViewGroup create (final Context mContext, final List<Integer> yValues, List<String> xValues) {
-        return create(mContext, yValues, xValues, null);
+        return create(mContext, yValues, xValues, null, -1);
+    }
+    static ViewGroup create (final Context mContext, final List<Integer> yValues, List<String> xValues, int maxY) {
+        return create(mContext, yValues, xValues, null, maxY);
+    }
+    static ViewGroup create (final Context mContext, final List<Integer> yValues, List<String> xValues, OnProgressChange onProgressChange) {
+        return create(mContext, yValues, xValues, onProgressChange, -1);
     }
     
-    static ViewGroup create (final Context mContext, final List<Integer> yValues, final List<String> xValues, final OnProgressChange onProgressChange) {
+    static ViewGroup create (final Context mContext, final List<Integer> yValues, final List<String> xValues, final OnProgressChange onProgressChange, final int maxY) {
         LinearLayout layout = new LinearLayout(mContext);
         layout.setLayoutParams(new LinearLayout.LayoutParams(
                                    LinearLayout.LayoutParams.MATCH_PARENT, 
@@ -41,7 +50,7 @@ public class BarGraphView
                 @Override
                 public void onGlobalLayout () {
                     graph.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    graph.setBackground(drawCanvas(graph, graph.getWidth(), graph.getHeight(), yValues));
+                    graph.setBackground(drawCanvas(graph, graph.getWidth(), graph.getHeight(), yValues, maxY));
                     }
             });
             
@@ -56,7 +65,7 @@ public class BarGraphView
                 @Override public void onStopTrackingTouch(SeekBar v){}
                 @Override
                 public void onProgressChanged(SeekBar v, int progress, boolean fromUser){
-                    graph.setBackground(drawCanvas(graph, graph.getWidth(), graph.getHeight(), yValues, progress));
+                    graph.setBackground(drawCanvas(graph, graph.getWidth(), graph.getHeight(), yValues, progress, maxY));
                     StringBuilder sb = new StringBuilder();
                     if(xValues != null) sb.append(xValues.get(progress) + "");
                     sb.append(yValues.get(progress));
@@ -71,18 +80,18 @@ public class BarGraphView
         return layout;
     }
 
-    static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues) {
-        return drawCanvas(view, width, height, yValues, yValues.size() - 1);
+    static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues, int mazY) {
+        return drawCanvas(view, width, height, yValues, yValues.size() - 1, -1);
     }
     
-    static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues, int headPosition) {
+    static BitmapDrawable drawCanvas (View view, int width, int height, List<Integer> yValues, int headPosition, int maxY) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        displayLines(canvas, yValues, headPosition);
+        displayLines(canvas, yValues, headPosition, maxY);
         return new BitmapDrawable(view.getResources(), bitmap);
     }
     
-    static void displayLines(Canvas canvas, List<Integer> yValues, int headPosition){
+    static void displayLines(Canvas canvas, List<Integer> yValues, int headPosition, int maxY){
         int canvasHeight = canvas.getHeight();
         Paint black_paint = new Paint();
         black_paint.setColor(Color.BLACK);
@@ -94,7 +103,7 @@ public class BarGraphView
         
         int lineSpacing = canvas.getWidth() / yValues.size();
         int currentX = 10;
-        int maxY = Collections.max(yValues);
+        if(maxY == -1) maxY = Collections.max(yValues);
         
         int i = 0;
         for(int yValue: yValues){
