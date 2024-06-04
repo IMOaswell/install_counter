@@ -67,30 +67,25 @@ public class StatsAnalytics
     static class GraphMaker {
         static List<Stat> stats;
         static String packageName;
+        static final int TODAY = 0;
+        static final int PAST_30_DAYS = 1;
+        
+        static View makeGraph(Context mContext, String pkgName, int code){
+            if(pkgName != null) populateVariables(mContext, pkgName);
+            switch(code){
+                case TODAY:
+                    return graphOfToday(mContext, packageName, stats);
+                case PAST_30_DAYS:
+                    return graphOfPastDays(mContext, packageName, stats, 30);
+            }
+            return new TextView(mContext);
+        }
         
         static void populateVariables(Context mContext, String pkgName){
             packageName = pkgName;
             File stats_log = getStatsLog(mContext, packageName);
             stats = StatsReader.getStats(mContext, stats_log);
             Collections.reverse(stats);
-        }
-        
-        static View graphOfToday(Context mContext){
-            return graphOfToday(mContext, packageName, stats);
-        }
-        
-        static View graphOfToday(Context mContext, String pkgName){
-            populateVariables(mContext, pkgName);
-            return graphOfToday(mContext, packageName, stats);
-        }
-        
-        static View graphOfPastDays(Context mContext, int daysRange){
-            return graphOfPastDays(mContext, packageName, stats, daysRange);
-        }
-        
-        static View graphOfPastDays(Context mContext, String pkgName, int daysRange){
-            populateVariables(mContext, pkgName);
-            return graphOfPastDays(mContext, packageName, stats, daysRange);
         }
         
         static View graphOfToday(Context mContext, String packageName, List<Stat> stats){
