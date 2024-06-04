@@ -16,15 +16,14 @@ import imo.install_counter.MainActivity;
 import java.io.File;
 import java.util.List;
 
-public class MainActivity extends Activity 
-{
+public class MainActivity extends Activity{
     Activity mContext;
 
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         mContext = MainActivity.this;
-        if (!TermuxTools.hasPermission(mContext)) {
+        if(!TermuxTools.hasPermission(mContext)){
             TermuxTools.requestPermission(mContext);
             return;
         }
@@ -32,14 +31,14 @@ public class MainActivity extends Activity
         Intent intent = getIntent();
         boolean recieveApk = Intent.ACTION_VIEW.equals(intent.getAction());
 
-        if (recieveApk) {
+        if(recieveApk){
             setModeRecieveApk(intent.getData());
-        } else {
+        }else{
             setModeInsights();
         } 
     }
 
-    public void setModeInsights () {
+    public void setModeInsights(){
         setContentView(R.layout.insights);
         final Spinner spinner = findViewById(R.id.spinner);
         final TextView directoryTxt = findViewById(R.id.directory_txt);
@@ -51,9 +50,9 @@ public class MainActivity extends Activity
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void onNothingSelected (AdapterView<?> parent) {}
+                public void onNothingSelected(AdapterView<?> parent){}
                 @Override                     
-                public void onItemSelected (AdapterView<?> parent, View view, int position, long id) {
+                public void onItemSelected(AdapterView<?> parent,View view,int position,long id){
                     String packageName = ( String) parent.getItemAtPosition(position);
 
                     directoryTxt.setText("Project's Folder: \n" +
@@ -66,13 +65,13 @@ public class MainActivity extends Activity
                 }
             });
     }
-    
-    public void setModeRecieveApk (final Uri apkUri) {
+
+    public void setModeRecieveApk(final Uri apkUri){
         setContentView(R.layout.recieve_apk);
 
         String apkPackageName = ProjectFinder.getApkPackageName(mContext, apkUri);
         String foundProjectDirPath = ProjectFinder.findProjectDir(mContext, apkPackageName);
-        if (foundProjectDirPath == null) return;
+        if(foundProjectDirPath == null) return;
         final File stats_log = new File(foundProjectDirPath,  "stats.log");
         final int currentStatIndex = StatsReader.getLastStat(mContext, stats_log).INDEX;
 
@@ -82,8 +81,8 @@ public class MainActivity extends Activity
         final CheckBox box = findViewById(R.id.box);
         btn.setText(currentStatIndex + "");
         btn.setOnClickListener(new View.OnClickListener() {
-                public void onClick (View v) {
-                    if (apkUri == null) {
+                public void onClick(View v){
+                    if(apkUri == null){
                         finishAffinity();
                         return;
                     }
@@ -97,7 +96,7 @@ public class MainActivity extends Activity
             });
     }
 
-    void installApk (Uri apkUri) {
+    void installApk(Uri apkUri){
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

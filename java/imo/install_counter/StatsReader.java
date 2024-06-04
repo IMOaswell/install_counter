@@ -11,15 +11,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class StatsReader
-{
-    static List<Stat> getStats (Context mContext, File stats_log) {
-        if (!stats_log.exists()) {
+public class StatsReader{
+    static List<Stat> getStats(Context mContext,File stats_log){
+        if(!stats_log.exists()){
             StatsWriter.recordStat(mContext, stats_log, 0);
         }
         List<Stat> STATS = new ArrayList<>();
         String[] logs = read(stats_log).split("\n");
-        for (String log : logs) {
+        for(String log : logs){
             STATS.add(new Stat(log));
         }
         String DATE = "";
@@ -33,46 +32,46 @@ public class StatsReader
         return STATS;
     }
 
-    static Stat getLastStat (Context mContext, File stats_log) {
+    static Stat getLastStat(Context mContext,File stats_log){
         List<Stat> Stats = getStats(mContext, stats_log);
         Stat lastStat = Stats.get(Stats.size() - 1);
         return lastStat;
     }
-    
+
     static Date getDate(Stat stat){
         String dateAndTimeString = stat.DATE + " " + stat.TIME;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MMM-dd hh:mma");
-        try {
+        try{
             return format.parse(dateAndTimeString);
-            } catch (ParseException e) {
-                System.out.println(e);
-            }
+        }catch(ParseException e){
+            System.out.println(e);
+        }
         return null;
     }
 
-    static String getMainDirPath (File stats_log) {
+    static String getMainDirPath(File stats_log){
         File mainDir = new File(stats_log.getParent(), "/app/src/main/");
         System.out.println(mainDir.getAbsolutePath());
         return mainDir.exists() ? mainDir.getAbsolutePath() : null;
     }
 
-    static String read (File file) {
+    static String read(File file){
         String filePath = file.getAbsolutePath();
         return read(filePath);
     }
 
-    static String read (String filePath) {
+    static String read(String filePath){
         StringBuilder content = new StringBuilder();
 
-        try {
+        try{
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
 
-            while ((line = reader.readLine()) != null) {
+            while((line = reader.readLine()) != null){
                 content.append(line).append("\n");
             }
             reader.close();
-        } catch (IOException e) {}
+        }catch(IOException e){}
         return content.toString().trim();
     }
 }
