@@ -15,6 +15,8 @@ import android.widget.TextView;
 import imo.install_counter.MainActivity;
 import java.io.File;
 import java.util.List;
+import android.widget.RadioButton;
+import java.util.ArrayList;
 
 public class MainActivity extends Activity{
     Activity mContext;
@@ -44,6 +46,25 @@ public class MainActivity extends Activity{
         final TextView directoryTxt = findViewById(R.id.directory_txt);
         final TextView timeTxt = findViewById(R.id.time_txt);
         final LinearLayout scrollLayout = findViewById(R.id.scroll);
+        final LinearLayout selectionLayout = findViewById(R.id.selection);
+
+        final List<RadioButton> radioButtons = new ArrayList<>();
+
+        for(int i = 0; i < 5; i++){
+            final RadioButton radioBtn = new RadioButton(mContext);
+            radioBtn.setText("hallo:D");
+            radioBtn.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        for(RadioButton radioButton : radioButtons){
+                            if(radioButton.isChecked()) radioButton.setChecked(false);
+                        }
+                        radioBtn.setChecked(true);
+                    }
+                });
+            radioButtons.add(radioBtn);
+            selectionLayout.addView(radioBtn);
+        }
 
         List<String> packageNames = StatsAnalytics.getPackageNames(mContext);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, packageNames);
@@ -59,7 +80,6 @@ public class MainActivity extends Activity{
                                          StatsAnalytics.getProjectDirPath(mContext, packageName));
                     timeTxt.setText("Time Since Last Log: \n" +
                                     StatsAnalytics.timeSinceLastLog(mContext, packageName));
-                    scrollLayout.removeAllViews();
                     scrollLayout.addView(StatsAnalytics.Graph.make(mContext, packageName, StatsAnalytics.Graph.TODAY));
                     scrollLayout.addView(StatsAnalytics.Graph.make(mContext, null, StatsAnalytics.Graph.PAST_30_DAYS));
                 }
