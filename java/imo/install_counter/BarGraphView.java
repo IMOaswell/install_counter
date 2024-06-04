@@ -19,9 +19,13 @@ import android.widget.TextView;
 public class BarGraphView
 {
     static ViewGroup create (final Context mContext, final List<Integer> yValues) {
-        return create(mContext, yValues, null);
+        return create(mContext, yValues, null, null);
     }
-    static ViewGroup create (final Context mContext, final List<Integer> yValues, final List<String> xValues) {
+    static ViewGroup create (final Context mContext, final List<Integer> yValues, List<String> xValues) {
+        return create(mContext, yValues, xValues, null);
+    }
+    
+    static ViewGroup create (final Context mContext, final List<Integer> yValues, final List<String> xValues, final OnProgressChange onProgressChange) {
         LinearLayout layout = new LinearLayout(mContext);
         layout.setLayoutParams(new LinearLayout.LayoutParams(
                                    LinearLayout.LayoutParams.MATCH_PARENT, 
@@ -57,6 +61,7 @@ public class BarGraphView
                     if(xValues != null) sb.append(xValues.get(progress) + "");
                     sb.append(yValues.get(progress));
                     textview.setText(sb.toString());
+                    if(onProgressChange != null) onProgressChange.run(progress);
                 }
             });
             
@@ -109,5 +114,9 @@ public class BarGraphView
             canvas.drawCircle(currentX, canvasHeight - 1, 1, paint);
             currentX += lineSpacing;
         }
+    }
+    
+    public static class OnProgressChange {
+        public void run(int progress){}
     }
 }

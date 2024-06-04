@@ -120,11 +120,11 @@ public class StatsAnalytics
             return BarGraphView.create(mContext, dataForEachHour, stringsForEachHour);
         }
         
-        static View graphOfPastDays(Context mContext, String packageName, List<Stat> stats, int daysRange){
+        static View graphOfPastDays(final Context mContext, final String packageName, final List<Stat> stats, final int daysRange){
             List<Integer> dataForEachDay = new ArrayList<>();
             List<String> stringsForEachDay = new ArrayList<>();
             
-            List<String> dates = new ArrayList<>();
+            final List<String> dates = new ArrayList<>();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd");
             Calendar calendar = Calendar.getInstance();
             
@@ -146,7 +146,25 @@ public class StatsAnalytics
             
             Collections.reverse(dataForEachDay);
             Collections.reverse(stringsForEachDay);
-            return BarGraphView.create(mContext, dataForEachDay, stringsForEachDay);
+            Collections.reverse(dates);
+            
+            final LinearLayout layout = new LinearLayout(mContext);
+            final TextView text = new TextView(mContext);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            
+            BarGraphView.OnProgressChange onProgressChange = new BarGraphView.OnProgressChange(){
+                @Override
+                public void run(int progress){
+                    if(layout.getChildCount() > 2) layout.removeViewAt(2);
+                    View graphOfDay = graphOfDay(mContext, packageName, stats, dates.get(progress));
+                    layout.addView(graphOfDay);
+                    text.setText(dates.get(progress));
+                }
+            };
+            
+            layout.addView(BarGraphView.create(mContext, dataForEachDay, stringsForEachDay, onProgressChange));
+            layout.addView(text);
+            return layout;
         }
     }
 }
