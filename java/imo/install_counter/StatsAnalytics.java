@@ -84,13 +84,13 @@ public class StatsAnalytics
             return graphOfToday(mContext, packageName, stats);
         }
         
-        static View graphOf7days(Context mContext){
-            return graphOfPast7days(mContext, packageName, stats);
+        static View graphOfPastDays(Context mContext, int daysRange){
+            return graphOfPastDays(mContext, packageName, stats, daysRange);
         }
         
-        static View graphOf7days(Context mContext, String pkgName){
+        static View graphOfPastDays(Context mContext, String pkgName, int daysRange){
             populateVariables(mContext, pkgName);
-            return graphOfPast7days(mContext, packageName, stats);
+            return graphOfPastDays(mContext, packageName, stats, daysRange);
         }
         
         static View graphOfToday(Context mContext, String packageName, List<Stat> stats){
@@ -124,7 +124,7 @@ public class StatsAnalytics
             return BarGraphView.create(mContext, dataForEachHour, stringsForEachHour);
         }
         
-        static View graphOfPast7days(Context mContext, String packageName, List<Stat> stats){
+        static View graphOfPastDays(Context mContext, String packageName, List<Stat> stats, int daysRange){
             List<Integer> dataForEachDay = new ArrayList<>();
             List<String> stringsForEachDay = new ArrayList<>();
             
@@ -132,7 +132,7 @@ public class StatsAnalytics
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd");
             Calendar calendar = Calendar.getInstance();
             
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < daysRange; i++) {
                 dataForEachDay.add(0);
                 String date = sdf.format(calendar.getTime());
                 datesOfLast7days.add(date);

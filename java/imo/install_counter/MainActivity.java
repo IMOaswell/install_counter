@@ -62,7 +62,8 @@ public class MainActivity extends Activity
                                     StatsAnalytics.timeSinceLastLog(mContext, packageName));
                     scrollLayout.removeAllViews();
                     scrollLayout.addView(StatsAnalytics.GraphMaker.graphOfToday(mContext, packageName));
-                    scrollLayout.addView(StatsAnalytics.GraphMaker.graphOf7days(mContext, packageName));
+                    scrollLayout.addView(StatsAnalytics.GraphMaker.graphOfPastDays(mContext, 7));
+                    scrollLayout.addView(StatsAnalytics.GraphMaker.graphOfPastDays(mContext, 30));
                 }
             });
     }
