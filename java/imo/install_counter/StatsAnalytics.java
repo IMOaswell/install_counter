@@ -107,7 +107,7 @@ public class StatsAnalytics
             }
 
             for(Stat stat : stats){
-                if(!dateString.equals(stat.DATE)) break;
+                if(!dateString.equals(stat.DATE)) continue;
                 Date statToday = StatsReader.getDate(stat);
                 SimpleDateFormat hour_sdf = new SimpleDateFormat("HH");
                 int hour = Integer.parseInt(hour_sdf.format(statToday));
