@@ -147,11 +147,17 @@ public class StatsAnalytics
                     break;
                 }
             }
-            TextView test = new TextView(mContext);
-            if(!isLastStatsDateThisWeek) return test;
+            if(!isLastStatsDateThisWeek) return BarGraphView.create(mContext, dataForEachDay, stringsForEachDay);
             
-            test.setText(datesOfLast7days.toString());
-            return test;
+            for(Stat stat : stats){
+                int i = datesOfLast7days.indexOf(stat.DATE);
+                if(i == -1) break;
+                int dayData = dataForEachDay.get(i);
+                dayData++;
+                dataForEachDay.set(i, dayData);
+            }
+            
+            return BarGraphView.create(mContext, dataForEachDay, stringsForEachDay);
         }
         
 //        static View last30days(Context mContext){
