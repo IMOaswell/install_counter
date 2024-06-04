@@ -157,6 +157,8 @@ public class StatsAnalytics
                 dataForEachDay.set(i, dayData);
             }
             
+            Collections.reverse(dataForEachDay);
+            Collections.reverse(stringsForEachDay);
             return BarGraphView.create(mContext, dataForEachDay, stringsForEachDay);
         }
         
