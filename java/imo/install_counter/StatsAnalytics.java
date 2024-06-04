@@ -82,8 +82,14 @@ public class StatsAnalytics
         
         static View graphOfToday(Context mContext, String packageName, List<Stat> stats){
             List<Integer> dataForEachHour = new ArrayList<>();
+            List<String> stringsForEachHour = new ArrayList<>();
             for (int i = 0; i < 24; i++) {
                 dataForEachHour.add(0);
+                
+                SimpleDateFormat hour_string_sdf = new SimpleDateFormat("ha");
+                Date date = new Date();
+                date.setHours(i);
+                stringsForEachHour.add(hour_string_sdf.format(date) + " : ");
             }
             
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd");
@@ -102,7 +108,7 @@ public class StatsAnalytics
                 dataForEachHour.set(hour, hourData);
             }
             
-            return BarGraphView.create(mContext, dataForEachHour);
+            return BarGraphView.create(mContext, dataForEachHour, stringsForEachHour);
         }
         
 //        static View last7days(Context mContext){

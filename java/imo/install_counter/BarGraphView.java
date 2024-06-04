@@ -19,6 +19,9 @@ import android.widget.TextView;
 public class BarGraphView
 {
     static ViewGroup create (final Context mContext, final List<Integer> yValues) {
+        return create(mContext, yValues, null);
+    }
+    static ViewGroup create (final Context mContext, final List<Integer> yValues, final List<String> xValues) {
         LinearLayout layout = new LinearLayout(mContext);
         layout.setLayoutParams(new LinearLayout.LayoutParams(
                                    LinearLayout.LayoutParams.MATCH_PARENT, 
@@ -50,7 +53,10 @@ public class BarGraphView
                 @Override
                 public void onProgressChanged(SeekBar v, int progress, boolean fromUser){
                     graph.setBackground(drawCanvas(graph, graph.getWidth(), graph.getHeight(), yValues, progress));
-                    textview.setText(yValues.get(progress) + "");
+                    StringBuilder sb = new StringBuilder();
+                    if(xValues != null) sb.append(xValues.get(progress) + "");
+                    sb.append(yValues.get(progress));
+                    textview.setText(sb.toString());
                 }
             });
             
