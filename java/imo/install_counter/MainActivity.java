@@ -10,13 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import imo.install_counter.MainActivity;
 import java.io.File;
-import java.util.List;
-import android.widget.RadioButton;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends Activity{
     Activity mContext;
@@ -49,7 +48,7 @@ public class MainActivity extends Activity{
         final LinearLayout selectionLayout = findViewById(R.id.selection);
 
         final List<RadioButton> radioButtons = new ArrayList<>();
-
+        
         for(int i = 0; i < 5; i++){
             final RadioButton radioBtn = new RadioButton(mContext);
             radioBtn.setText("hallo:D");
@@ -80,6 +79,8 @@ public class MainActivity extends Activity{
                                          StatsAnalytics.getProjectDirPath(mContext, packageName));
                     timeTxt.setText("Time Since Last Log: \n" +
                                     StatsAnalytics.timeSinceLastLog(mContext, packageName));
+                                    
+                    scrollLayout.removeAllViews();
                     scrollLayout.addView(StatsAnalytics.Graph.make(mContext, packageName, StatsAnalytics.Graph.TODAY));
                     scrollLayout.addView(StatsAnalytics.Graph.make(mContext, null, StatsAnalytics.Graph.PAST_30_DAYS));
                 }
