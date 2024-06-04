@@ -98,7 +98,7 @@ public class StatsAnalytics
                 int hour = Integer.parseInt(hour_sdf.format(statToday));
                 
                 int hourData = dataForEachHour.get(hour);
-                hourData += stat.INSERTS + stat.DELETES;
+                hourData++;
                 dataForEachHour.set(hour, hourData);
             }
             
