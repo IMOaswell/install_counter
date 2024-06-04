@@ -102,8 +102,6 @@ public class StatsAnalytics
             
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd");
             String today = sdf.format(new Date());
-            boolean isLastStatsDateToday = today.equals(stats.get(0).DATE);
-            if(!isLastStatsDateToday) return BarGraphView.create(mContext, dataForEachHour);
             
             for(Stat stat : stats){
                 if(!today.equals(stat.DATE)) break;
@@ -134,15 +132,6 @@ public class StatsAnalytics
                 stringsForEachDay.add(date + " : ");
                 calendar.add(Calendar.DAY_OF_YEAR, -1);
             }
-            
-            boolean isLastStatsDateIncluded = false;
-            for(String date : dates){
-                if(stats.get(0).DATE.equals(date)){
-                    isLastStatsDateIncluded = true;
-                    break;
-                }
-            }
-            if(!isLastStatsDateIncluded) return BarGraphView.create(mContext, dataForEachDay, stringsForEachDay);
             
             for(Stat stat : stats){
                 int i = dates.indexOf(stat.DATE);
