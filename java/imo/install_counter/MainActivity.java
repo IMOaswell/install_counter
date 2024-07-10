@@ -123,6 +123,7 @@ public class MainActivity extends Activity{
     void installApk(Uri apkUri){
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        intent.setPackage("com.google.android.packageinstaller");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(intent);
     }
