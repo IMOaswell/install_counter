@@ -68,6 +68,7 @@ public class StatsWriter{
         commit += "\tgit commit -m \"$userInput\"\n";
         commit += "fi \n";
         String ammend = "echo Commit Ammend \n";
+        ammend += "git log -1 --format=%s \n";
         ammend += "echo 'are u sure? (press any key to confirm)' \n";
         ammend += "read userInput \n";
         ammend += "git add . \n";
