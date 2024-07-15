@@ -38,41 +38,10 @@ public class StatsWriter{
         //will add e.g files:3 +27 -6
         String script = "cd \'" + StatsReader.getMainDirPath(stats_log) + "\' \n";
 
-        String addChanges = "input=$(git diff --shortstat) \n";
-        addChanges += "untracked_files=$(git ls-files --others --exclude-standard) \n";
-        addChanges += "if [ -z \"$input\" ]; then \n";
-        addChanges += "input=\"$(echo \"$untracked_files\" | wc -l) files\" \n";
-        addChanges += "fi \n";
-        addChanges += "files=$(echo $input | sed -n -E 's/^([0-9]+) file.*/files:\\1/p') \n";
-        addChanges += "insertions=$(echo $input | sed -n -E 's/.* ([0-9]+) insertion.*/+\\1/p') \n";
-        addChanges += "deletions=$(echo $input | sed -n -E 's/.* ([0-9]+) deletion.*/-\\1/p') \n";
-        addChanges += "if [ -z \"$insertions\" ]; then \n";
-        addChanges += "insertions=\"0\" \n";
-        addChanges += "fi \n";
-        addChanges += "if [ -z \"$deletions\" ]; then \n";
-        addChanges += "deletions=\"0\" \n";
-        addChanges += "fi \n";
-        addChanges += "output=\"$files $insertions $deletions\" \n";
-        addChanges += "echo $output \n";
+        String addChanges = StatsReader.readAsset(mContext, "recordChanges.sh") + " \n";
         addChanges += "echo $output >> '" + stats_log.getAbsolutePath() + "' \n";
-        String commit = "echo Enter Commit Message \n";
-        commit += "nothing=\"probably just testing:D\" \n";
-        commit += "echo put nothing to set it to \\\"$nothing\\\" \n";
-        commit += "echo commit message: \n";
-        commit += "read userInput \n";
-        commit += "git add . \n";
-        commit += "if [ -z \"$userInput\" ]; then \n";
-        commit += "\techo \"$nothing\" \n";
-        commit += "\tgit commit -m \"$nothing\" \n";
-        commit += "else \n";
-        commit += "\tgit commit -m \"$userInput\"\n";
-        commit += "fi \n";
-        String ammend = "echo Commit Ammend \n";
-        ammend += "git log -1 --format=%s \n";
-        ammend += "echo 'are u sure? (press any key to confirm)' \n";
-        ammend += "read userInput \n";
-        ammend += "git add . \n";
-        ammend += "git commit --amend --no-edit \n";
+        String commit = StatsReader.readAsset(mContext, "commit.sh") + " \n";
+        String ammend = StatsReader.readAsset(mContext, "commitAmmend.sh") + " \n";
 
         script += addChanges + "\n";
         script += isAmmend ? ammend : commit;

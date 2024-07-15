@@ -36,7 +36,7 @@ public class MainActivity extends Activity{
             setModeRecieveApk(intent.getData());
         }else{
             setModeInsights();
-        } 
+        }
     }
 
     public void setModeInsights(){
